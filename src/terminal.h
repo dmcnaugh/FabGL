@@ -473,7 +473,7 @@ public:
    *     Terminal.begin(&VGAController);
    *     Terminal.connectSerialPort(Serial);
    */
-  void connectSerialPort(HardwareSerial & serialPort, bool autoXONXOFF = true);
+  void connectSerialPort(Stream & serialPort, bool autoXONXOFF = true);
 
   /**
    * @brief Connects a remote host using UART
@@ -970,6 +970,7 @@ protected:
   // optional serial port
   // data from serial port is processed and displayed
   // keys from keyboard are processed and sent to serial port
+  Stream *          m_stream;
   HardwareSerial *          m_serialPort;
 
   // optional serial port (directly handled)

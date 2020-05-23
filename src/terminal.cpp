@@ -167,11 +167,12 @@ void Terminal::begin(DisplayController * displayController, Keyboard * keyboard)
 }
 
 
-void Terminal::connectSerialPort(HardwareSerial & serialPort, bool autoXONXOFF)
+void Terminal::connectSerialPort(Stream & serialPort, bool autoXONXOFF)
 {
   if (m_serialPort)
     vTaskDelete(m_keyboardReaderTaskHandle);
-  m_serialPort = &serialPort;
+  m_stream = &serialPort;
+  m_serialPort = static_cast <HardwareSerial *> (&serialPort);
   m_autoXONOFF = autoXONXOFF;
 
   m_serialPort->setRxBufferSize(FABGLIB_TERMINAL_INPUT_QUEUE_SIZE);
@@ -1252,7 +1253,7 @@ void Terminal::flush()
 void Terminal::pollSerialPort()
 {
   while (true) {
-    int avail = m_serialPort->available();
+    int avail = m_stream->available();
 
     if (m_autoXONOFF) {
       if (m_XOFF) {
@@ -1273,7 +1274,7 @@ void Terminal::pollSerialPort()
     if (!avail)
       break;
 
-    write( m_serialPort->read() );
+    write( m_stream->read() );
   }
 }
 
@@ -1338,7 +1339,7 @@ void Terminal::send(char c)
   if (m_serialPort) {
     while (m_serialPort->availableForWrite() == 0)
       vTaskDelay(1 / portTICK_PERIOD_MS);
-    m_serialPort->write(c);
+    m_stream->write(c);
   }
 
   if (m_uart) {
@@ -1359,7 +1360,7 @@ void Terminal::send(char const * str)
     while (*str) {
       while (m_serialPort->availableForWrite() == 0)
         vTaskDelay(1 / portTICK_PERIOD_MS);
-      m_serialPort->write(*str);
+      m_stream->write(*str);
 
       #if FABGLIB_TERMINAL_DEBUG_REPORT_OUT_CODES
       logFmt("=> %02X  %s%c\n", (int)*str, (*str <= ASCII_SPC ? CTRLCHAR_TO_STR[(int)(*str)] : ""), (*str > ASCII_SPC ? *str : ASCII_SPC));
