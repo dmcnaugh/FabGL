@@ -264,6 +264,7 @@ enum KeypadMode {
 
 struct EmuState {
 
+  uint8_t      codePage;
   // Index of characterSet[], 0 = G0 (Standard)  1 = G1 (Alternate),  2 = G2,  3 = G3
   uint8_t      characterSetIndex;
 
