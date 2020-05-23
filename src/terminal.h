@@ -46,6 +46,7 @@
 
 #include "Stream.h"
 
+#define T_SMOOTH_SCROLL_DELAY 7500
 
 
 /**
@@ -308,6 +309,7 @@ struct EmuState {
   // hence must be DisplayController.enableBackgroundPrimitiveExecution(true),
   // that is the default.
   bool         smoothScroll;
+  bool         scrolling;
 
   // DECKPAM (Keypad Application Mode)
   // DECKPNM (Keypad Numeric Mode)

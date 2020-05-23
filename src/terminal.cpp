@@ -823,11 +823,15 @@ void Terminal::scrollDown()
 
   // scroll down using canvas
   if (m_emuState.smoothScroll) {
-    for (int i = 0; i < m_font.height; ++i)
+    m_emuState.scrolling = true;
+    for (int i = 0; i < m_font.height; ++i) {
       m_canvas->scroll(0, 1);
+      delayMicroseconds(T_SMOOTH_SCROLL_DELAY);
+    }
   } else
     m_canvas->scroll(0, m_font.height);
 
+  m_emuState.scrolling = false;;
   // move down scren buffer
   for (int y = m_emuState.scrollingRegionDown - 1; y > m_emuState.scrollingRegionTop - 1; --y)
     memcpy(m_glyphsBuffer.map + y * m_columns, m_glyphsBuffer.map + (y - 1) * m_columns, m_columns * sizeof(uint32_t));
@@ -861,11 +865,15 @@ void Terminal::scrollUp()
 
   // scroll up using canvas
   if (m_emuState.smoothScroll) {
-    for (int i = 0; i < m_font.height; ++i)
+    m_emuState.scrolling = true;
+    for (int i = 0; i < m_font.height; ++i) {
       m_canvas->scroll(0, -1);
+      delayMicroseconds(T_SMOOTH_SCROLL_DELAY);
+    }
   } else
     m_canvas->scroll(0, -m_font.height);
 
+  m_emuState.scrolling = false;;
   // move up screen buffer
   for (int y = m_emuState.scrollingRegionTop - 1; y < m_emuState.scrollingRegionDown - 1; ++y)
     memcpy(m_glyphsBuffer.map + y * m_columns, m_glyphsBuffer.map + (y + 1) * m_columns, m_columns * sizeof(uint32_t));
