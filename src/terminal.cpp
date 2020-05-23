@@ -2555,8 +2555,8 @@ void Terminal::consumeDECPrivateModes(int const * params, int paramsCount, char 
       useAlternateScreenBuffer(set);
       break;
 
-    // ESC [ ? 77 h
-    // ESC [ ? 77 l
+    // ESC [ ? 67 h
+    // ESC [ ? 67 l
     // DECBKM (default off): Backarrow key Mode
     case 67:
       m_emuState.backarrowKeyMode = set;
