@@ -3609,7 +3609,7 @@ void uiCustomListBox::paintListBox()
       break;
 
     // background
-    RGB888 bkColor = hasFocus() ? m_listBoxStyle.focusedBackgroundColor : m_listBoxStyle.backgroundColor;
+    RGB888 bkColor = ( hasFocus() && !(index % 2) ) ? m_listBoxStyle.focusedBackgroundColor : (hasFocus() ? RGB888(255, 255, 128) : m_listBoxStyle.backgroundColor);
     if (index < items_getCount() && items_selected(index))
       bkColor = (hasFocus() ? m_listBoxStyle.focusedSelectedBackgroundColor : m_listBoxStyle.selectedBackgroundColor);
     canvas()->setBrushColor(bkColor);
