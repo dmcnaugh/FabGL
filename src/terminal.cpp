@@ -27,10 +27,10 @@
 #include "freertos/task.h"
 #include "freertos/timers.h"
 
-#include "rom/ets_sys.h"
+#include "esp32/rom/ets_sys.h"
 #include "esp_attr.h"
-#include "esp_intr.h"
-#include "rom/uart.h"
+#include "esp_intr_alloc.h"
+#include "esp32/rom/uart.h"
 #include "soc/uart_reg.h"
 #include "soc/uart_struct.h"
 #include "soc/io_mux_reg.h"
