@@ -798,9 +798,9 @@ public:
   Keyboard * keyboard() { return m_keyboard; }
 
 
-private:
+protected:
 
-  void reset();
+  virtual void reset();
   void int_clear();
   void clearMap(uint32_t * map);
 
@@ -808,7 +808,7 @@ private:
   void freeTabStops();
   void freeGlyphsMap();
 
-  void set132ColumnMode(bool value);
+  virtual void set132ColumnMode(bool value);
 
   bool moveUp();
   bool moveDown();
@@ -822,7 +822,7 @@ private:
   // tab stops
   void nextTabStop();
   void setTabStop(int column, bool set);
-  void resetTabStops();
+  virtual void resetTabStops();
 
   // scroll control
   void scrollDown();
@@ -846,12 +846,12 @@ private:
   void consumeCSIQUOT(int * params, int paramsCount);
   void consumeCSISPC(int * params, int paramsCount);
   char consumeParamsAndGetCode(int * params, int * paramsCount, bool * questionMarkFound);
-  void consumeDECPrivateModes(int const * params, int paramsCount, char c);
+  virtual void consumeDECPrivateModes(int const * params, int paramsCount, char c);
   void consumeDCS();
   void execSGRParameters(int const * params, int paramsCount);
   void consumeESCVT52();
 
-  void execCtrlCode(char c);
+  virtual void execCtrlCode(char c);
 
   static void charsConsumerTask(void * pvParameters);
   static void keyboardReaderTask(void * pvParameters);
@@ -866,7 +866,7 @@ private:
 
   char getNextCode(bool processCtrlCodes);
 
-  bool setChar(char c);
+  virtual bool setChar(char c);
   GlyphOptions getGlyphOptionsAt(int X, int Y);
 
   void insertAt(int column, int row, int count);
@@ -895,13 +895,13 @@ private:
   void sendCursorKeyCode(char c);
   void sendKeypadCursorKeyCode(char applicationCode, const char * numericCode);
 
-  void ANSIDecodeVirtualKey(VirtualKey vk);
-  void VT52DecodeVirtualKey(VirtualKey vk);
+  virtual void ANSIDecodeVirtualKey(VirtualKey vk);
+  virtual void VT52DecodeVirtualKey(VirtualKey vk);
 
   void convHandleTranslation(uint8_t c, bool fromISR);
   void convSendCtrl(ConvCtrl ctrl, bool fromISR);
   void convQueue(const char * str, bool fromISR);
-  void TermDecodeVirtualKey(VirtualKey vk);
+  virtual void TermDecodeVirtualKey(VirtualKey vk);
 
   bool addToInputQueue(char c, bool fromISR);
 
