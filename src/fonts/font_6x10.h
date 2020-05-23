@@ -274,7 +274,7 @@ extern const FontInfo FONT_6x10 = {
   .exleading = 0,
   .flags     = 0,
   .weight    = 400,
-  .charset   = 44,
+  .charset   = 256,
   .data      = FONT_6x10_DATA,
   .chptr     = NULL,
 };

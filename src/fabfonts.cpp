@@ -38,6 +38,7 @@ static const FontInfo * FIXED_WIDTH_EMBEDDED_FONTS[] = {
   &FONT_8x14,
   &FONT_8x8,
   &FONT_8x9,
+  &FONT_6x10,
   &FONT_6x8,
   &FONT_5x7,
   &FONT_4x6,
