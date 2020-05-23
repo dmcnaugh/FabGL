@@ -934,7 +934,7 @@ void IRAM_ATTR DisplayController::renderGlyphsBuffer(GlyphsBufferRenderInfo cons
 }
 
 
-void IRAM_ATTR DisplayController::drawPath(Path const & path, Rect & updateRect)
+void DisplayController::drawPath(Path const & path, Rect & updateRect)
 {
   RGB888 color = getActualPenColor();
 
@@ -983,7 +983,7 @@ void IRAM_ATTR DisplayController::drawPath(Path const & path, Rect & updateRect)
 }
 
 
-void IRAM_ATTR DisplayController::fillPath(Path const & path, RGB888 const & color, Rect & updateRect)
+void DisplayController::fillPath(Path const & path, RGB888 const & color, Rect & updateRect)
 {
   const int clipX1 = paintState().absClippingRect.X1;
   const int clipY1 = paintState().absClippingRect.Y1;
@@ -1057,7 +1057,7 @@ void IRAM_ATTR DisplayController::fillPath(Path const & path, RGB888 const & col
 }
 
 
-void IRAM_ATTR DisplayController::absDrawThickLine(int X1, int Y1, int X2, int Y2, int penWidth, RGB888 const & color)
+void DisplayController::absDrawThickLine(int X1, int Y1, int X2, int Y2, int penWidth, RGB888 const & color)
 {
   // just to "de-absolutize"
   const int origX = paintState().origin.X;
@@ -1111,7 +1111,7 @@ void IRAM_ATTR DisplayController::drawBitmap(BitmapDrawingInfo const & bitmapDra
 }
 
 
-void IRAM_ATTR DisplayController::absDrawBitmap(int destX, int destY, Bitmap const * bitmap, void * saveBackground, bool ignoreClippingRect)
+void DisplayController::absDrawBitmap(int destX, int destY, Bitmap const * bitmap, void * saveBackground, bool ignoreClippingRect)
 {
   const int clipX1 = ignoreClippingRect ? 0 : paintState().absClippingRect.X1;
   const int clipY1 = ignoreClippingRect ? 0 : paintState().absClippingRect.Y1;

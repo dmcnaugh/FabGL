@@ -35,7 +35,7 @@
 #include <stddef.h>
 #include <atomic>
 
-#include "rom/lldesc.h"
+#include "esp32/rom/lldesc.h"
 #include "driver/gpio.h"
 
 #include "freertos/FreeRTOS.h"

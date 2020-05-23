@@ -34,7 +34,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "rom/lldesc.h"
+#include <driver/gpio.h>
+#include "esp32/rom/lldesc.h"
 
 #include "fabglconf.h"
 

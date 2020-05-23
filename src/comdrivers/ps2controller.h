@@ -29,7 +29,7 @@
  *
  * @brief This file contains fabgl::PS2Controller definition.
  */
-
+#include "driver/gpio.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
