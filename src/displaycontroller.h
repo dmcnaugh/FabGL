@@ -229,6 +229,8 @@ struct RGB888 {
   RGB888() : R(0), G(0), B(0) { }
   RGB888(Color color);
   RGB888(uint8_t red, uint8_t green, uint8_t blue) : R(red), G(green), B(blue) { }
+
+  static void switchPalette(bool vga = false);
 } __attribute__ ((packed));
 
 

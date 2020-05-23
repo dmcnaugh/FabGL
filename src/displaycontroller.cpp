@@ -40,7 +40,7 @@ namespace fabgl {
 
 
 // Array to convert Color enum to RGB888 struct
-const RGB888 COLOR2RGB888[16] = {
+const RGB888 ANSI2RGB888[16] = {
   {   0,   0,   0 }, // Black
   { 128,   0,   0 }, // Red
   {   0, 128,   0 }, // Green
@@ -59,7 +59,26 @@ const RGB888 COLOR2RGB888[16] = {
   { 255, 255, 255 }, // BrightWhite
 };
 
+const RGB888 VGA2RGB888[16] = {
+  {   0,   0,   0 }, // Black
+  { 128,   0,   0 }, // Red
+  {   0, 128,   0 }, // Green
+  { 128,  64,   0 }, // Yellow
+  {   0,   0, 128 }, // Blue
+  { 128,   0, 128 }, // Magenta
+  {   0, 128, 128 }, // Cyan
+  { 128, 128, 128 }, // White
+  {  64,  64,  64 }, // BrightBlack
+  { 255,  64,   0 }, // BrightRed
+  {   0, 255,  64 }, // BrightGreen
+  { 255, 255,  64 }, // BrightYellow
+  {   0,  64, 255 }, // BrightBlue
+  { 255,  64, 255 }, // BrightMagenta
+  {  64, 255, 255 }, // BrightCyan
+  { 255, 255, 255 }, // BrightWhite
+};
 
+const RGB888 *COLOR2RGB888 = ANSI2RGB888;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +116,14 @@ RGB888::RGB888(Color color)
   *this = COLOR2RGB888[(int)color];
 }
 
+void RGB888::switchPalette(bool vga)
+{
+  if (vga) {
+    COLOR2RGB888 = VGA2RGB888;
+  } else {
+    COLOR2RGB888 = ANSI2RGB888;
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
