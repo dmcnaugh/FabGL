@@ -96,7 +96,7 @@ const char * CTRLCHAR_TO_STR[] = {"NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK
 
 
 Terminal::Terminal()
-  : m_canvas(nullptr)
+  : m_canvas(nullptr), m_logStream(nullptr)
 {
 }
 
@@ -118,8 +118,6 @@ void Terminal::begin(DisplayController * displayController, Keyboard * keyboard)
     // get default keyboard from PS/2 controller
     m_keyboard = PS2Controller::instance()->keyboard();
   }
-
-  m_logStream = nullptr;
 
   m_glyphsBuffer = (GlyphsBuffer){0, 0, nullptr, 0, 0, nullptr};
 
