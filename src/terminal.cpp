@@ -2087,7 +2087,7 @@ char Terminal::consumeParamsAndGetCode(int * params, int * paramsCount, bool * q
       #endif
 
       // reset non specified parameters
-      while (p < params + FABGLIB_MAX_CSI_PARAMS)
+      while (p < params + FABGLIB_MAX_CSI_PARAMS - 1)
         *(++p) = 0;
 
       return c;
