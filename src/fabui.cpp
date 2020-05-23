@@ -892,8 +892,8 @@ void uiApp::destroyWindow(uiWindow * window)
       showCaret(nullptr);
     if (m_focusedWindow == window)
       setFocusedWindow(nullptr);
-    if (m_activeWindow == window)
-      setActiveWindow(nullptr);
+    // if (m_activeWindow == window)
+    //   setActiveWindow(nullptr);
     // to send Hide event and repaint area
     showWindow(window, false);
     // to actualy detach from parent and destroy the object
