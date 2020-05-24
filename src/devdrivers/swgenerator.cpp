@@ -29,7 +29,7 @@
 #include "soc/i2s_struct.h"
 #include "soc/i2s_reg.h"
 #include "driver/periph_ctrl.h"
-#include "rom/lldesc.h"
+#include "esp32/rom/lldesc.h"
 #include "soc/rtc.h"
 
 #include "fabutils.h"
