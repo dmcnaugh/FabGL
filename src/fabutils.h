@@ -943,6 +943,12 @@ enum VirtualKey {
   VK_UMLAUT_u,        /**< Umlaut 'u': ü */
   VK_UMLAUT_o,        /**< Umlaut 'o': ö */
   VK_UMLAUT_a,        /**< Umlaut 'a': ä */
+  VK_UMLAUT_U,        /**< Umlaut 'U': Ü */
+  VK_UMLAUT_O,        /**< Umlaut 'O': Ö */
+  VK_UMLAUT_A,        /**< Umlaut 'A': Ä */
+  VK_MICRO,           /**< Micro: µ */
+  VK_SUPER_2,         /**< Superscript '2': ² */
+  VK_SUPER_3,         /**< Superscript '3': ³ */
 
   VK_LAST,            // marks the last virtual key
 };
