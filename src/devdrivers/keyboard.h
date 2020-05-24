@@ -130,6 +130,9 @@ extern const KeyboardLayout GermanLayout;
 /** @brief Italian keyboard layout */
 extern const KeyboardLayout ItalianLayout;
 
+/** @brief Test keyboard layout */
+extern const KeyboardLayout TestLayout;
+
 
 /**
  * @brief The PS2 Keyboard controller class.
