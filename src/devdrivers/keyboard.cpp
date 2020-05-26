@@ -832,7 +832,7 @@ VirtualKey Keyboard::VKtoAlternateVK(VirtualKey in_vk, KeyboardLayout const * la
     if (def->reqVirtualKey == in_vk && def->ctrl == m_CTRL &&
                                        def->alt == m_ALT &&
                                        (def->shift == m_SHIFT || (def->capslock && def->capslock == m_CAPSLOCK)) &&
-                                       def->numlock == m_NUMLOCK) {
+                                       (!def->numlock || def->numlock== m_NUMLOCK)) {
       vk = def->virtualKey;
       break;
     }
