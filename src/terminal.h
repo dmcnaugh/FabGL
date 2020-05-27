@@ -866,6 +866,7 @@ protected:
 
   char getNextCode(bool processCtrlCodes);
 
+  virtual char mapChar(char c);
   virtual bool setChar(char c);
   GlyphOptions getGlyphOptionsAt(int X, int Y);
 

@@ -1800,12 +1800,11 @@ void Terminal::consumeInputQueue()
     execCtrlCode(c);
 
   else {
-    if (m_emuState.characterSet[m_emuState.characterSetIndex] == 0 || (!m_emuState.ANSIMode && m_emuState.VT52GraphicsMode)) {
-      if (m_emuState.codePage) {
-        c = DECGRAPH_TO_CP437[(uint8_t)c];
-      } else {
-        if (c >= 0x60 && c < 0x7f) c = c - 0x5f;
-      }
+    // if (m_emuState.characterSet[m_emuState.characterSetIndex] == 0 || (!m_emuState.ANSIMode && m_emuState.VT52GraphicsMode)) {
+    //     c = DECGRAPH_TO_CP437[(uint8_t)c];
+    // }
+    setChar(mapChar(c));
+  }
     }
     setChar(c);
   }
@@ -1819,6 +1818,14 @@ void Terminal::consumeInputQueue()
     reset();
 }
 
+char Terminal::mapChar(char c)
+{
+    if (m_emuState.characterSet[m_emuState.characterSetIndex] == '0' || (!m_emuState.ANSIMode && m_emuState.VT52GraphicsMode)) {
+      c = DECGRAPH_TO_CP437[(uint8_t)c];
+    }
+
+    return c;
+}
 
 void Terminal::execCtrlCode(char c)
 {
