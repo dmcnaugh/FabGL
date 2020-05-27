@@ -1800,13 +1800,7 @@ void Terminal::consumeInputQueue()
     execCtrlCode(c);
 
   else {
-    // if (m_emuState.characterSet[m_emuState.characterSetIndex] == 0 || (!m_emuState.ANSIMode && m_emuState.VT52GraphicsMode)) {
-    //     c = DECGRAPH_TO_CP437[(uint8_t)c];
-    // }
     setChar(mapChar(c));
-  }
-    }
-    setChar(c);
   }
 
   enableBlinkingText(m_prevBlinkingTextEnabled);
