@@ -422,7 +422,7 @@ void Terminal::reset()
   m_emuState.allowFabGLSequences   = 0;
   m_emuState.characterSetIndex     = 0;  // Select G0
   for (int i = 0; i < 4; ++i)
-    m_emuState.characterSet[i] = 1;     // G0, G1, G2 and G3 = USASCII
+    m_emuState.characterSet[i] = 'B';     // G0, G1, G2 and G3 = USASCII
 
   m_lastPressedKey = VK_NONE;
 
@@ -2009,15 +2009,26 @@ void Terminal::consumeESC()
     case ')':
     case '*':
     case '+':
-      switch (getNextCode(true)) {
-        case '0':
+    {
+      char m = getNextCode(true);
+      switch (m) {
+        //TODO: Here we need to respond to all possible fonts/nrcs B, A, <, 0, 1, 2, ... K (DE), Y (IT)
+        // should be as simple as to: store the code in m_emuState.characterSet[c - '(']
+        case 'A': // UK (British)
+        case 'B': // United States (USASCII)
+        case 'K': // German
+        case 'Y': // Italian
+        case '0': // DEC Special Graphics
+        case '1':
         case '2':
-          m_emuState.characterSet[c - '('] = 0; // DEC Special Character and Line Drawing
+        case '<': // DEC Supplemental (Upper MCS)
+          m_emuState.characterSet[c - '('] = m;
           break;
-        default:  // 'B' and others
-          m_emuState.characterSet[c - '('] = 1; // United States (USASCII)
+        default:  // Default to ASCII
+          m_emuState.characterSet[c - '('] = 'B'; // United States (USASCII)
           break;
       }
+    }
       break;
 
     // ESC = : DECKPAM (Keypad Application Mode)
