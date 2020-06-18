@@ -239,6 +239,16 @@ const KeyboardLayout USLayout {
     { VK_x,            { 0, 0, 1, 1, 0 }, VK_X },
     { VK_y,            { 0, 0, 1, 1, 0 }, VK_Y },
     { VK_z,            { 0, 0, 1, 1, 0 }, VK_Z },
+
+    // SHIFT cursor control keys for WordStar personality mapping
+    { VK_PAGEUP,       { 0, 0, 1, 0, 0 }, VK_SH_PAGEUP },     // SHIFT PAGEUP
+    { VK_PAGEDOWN,     { 0, 0, 1, 0, 0 }, VK_SH_PAGEDOWN },   // SHIFT PAGEDOWN
+    { VK_HOME,         { 0, 0, 1, 0, 0 }, VK_SH_HOME },       // SHIFT HOME
+    { VK_END,          { 0, 0, 1, 0, 0 }, VK_SH_END },        // SHIFT END
+    { VK_UP,           { 0, 0, 1, 0, 0 }, VK_SH_UP },         // SHIFT UP
+    { VK_DOWN,         { 0, 0, 1, 0, 0 }, VK_SH_DOWN },       // SHIFT DOWN
+    { VK_LEFT,         { 0, 0, 1, 0, 0 }, VK_SH_LEFT },       // SHIFT LEFT
+    { VK_RIGHT,        { 0, 0, 1, 0, 0 }, VK_SH_RIGHT },      // SHIFT RIGHT
   }
 };
 
@@ -578,6 +588,7 @@ char const * Keyboard::virtualKeyToString(VirtualKey virtualKey)
                              "VK_GRAVE_a", "VK_GRAVE_e", "VK_ACUTE_e", "VK_GRAVE_i", "VK_GRAVE_o", "VK_GRAVE_u", "VK_CEDILLA_c", "VK_ESZETT", "VK_UMLAUT_u",
                              "VK_UMLAUT_o", "VK_UMLAUT_a",
                              "VK_UMLAUT_U", "VK_UMLAUT_O", "VK_UMLAUT_A", "VK_MICRO", "VK_SUPER_2", "VK_SUPER_3",
+                             "VK_SH_PAGEUP", "VK_SH_PAGEDOWN", "VK_SH_HOME", "VK_SH_END", "VK_SH_UP", "VK_SH_DOWN", "VK_SH_LEFT", "VK_SH_RIGHT",
                             };
   return VKTOSTR[virtualKey];
 }

@@ -29,28 +29,28 @@ namespace fabgl {
 
 
 const TermInfoKbdConv kbdConv_Generic[] = {
-  // Cursor Up => CTRL-E, WordStar left
+  // Cursor Up => CTRL-E, WordStar Cursor Up
   { VK_UP, "\x05" },
 
-  // Cursor Down => CTRL-X, WordStar Down
+  // Cursor Down => CTRL-X, WordStar Cursor Down
   { VK_DOWN, "\x18" },
 
-  // Cursor Left => CTRL-S, WordStar Left
+  // Cursor Left => CTRL-S, WordStar Cursor Left
   { VK_LEFT, "\x13" },
 
-  // Cursor Right => CTRL-D, WordStar right
+  // Cursor Right => CTRL-D, WordStar Cursor Right
   { VK_RIGHT, "\x04" },
 
-  // Home => CTRL-Q S, WordStar Home
+  // Home => CTRL-Q S, WordStar Left Side
   { VK_HOME, "\x11" "S" },
 
-  // End => CTRL-Q D, WordStar End
+  // End => CTRL-Q D, WordStar Right Side
   { VK_END, "\x11" "D" },
 
-  // PageUp => CTRL-C, WordStar PageUp
+  // PageUp => CTRL-R, WordStar Scroll Up Screen
   { VK_PAGEUP, "\x12" },
 
-  // PageDown => CTRL-R, WordStar PageDown
+  // PageDown => CTRL-C, WordStar Scroll Down Screen
   { VK_PAGEDOWN, "\x03" },
 
   // Backspace => CTRL-H, CP/M delete char left (but WordStar just moves cursor left)
@@ -59,10 +59,46 @@ const TermInfoKbdConv kbdConv_Generic[] = {
   // Delete => CTRL-G, WordStar delete char right
   { VK_DELETE, "\x07" },
 
+  // Insert => CTRL-V, WordStar Insert
+  { VK_INSERT, "\x16" },
+
+  // SHIFT PageUp => CTRL-Q R, WordStar Begin Doc
+  { VK_SH_PAGEUP, "\x11" "R" },
+
+  // SHIFT PageDown => CTRL-Q C, WordStar End Doc
+  { VK_SH_PAGEDOWN, "\x11" "C" },
+
+  // SHIFT Cursor Up => CTRL-W, WordStar Scroll Line Up
+  { VK_SH_UP, "\x17" },
+
+  // SHIFT Cursor Down => CTRL-Z, WordStar Scroll Line Down
+  { VK_SH_DOWN, "\x1A" },
+
+  // SHIFT Cursor Left => CTRL-A, WordStar Word Left
+  { VK_SH_LEFT, "\x01" },
+
+  // SHIFT Cursor RIght => CTRL-F, WordStar Word Left
+  { VK_SH_RIGHT, "\x06" },
+
   // Last item marker
   { VK_NONE, nullptr },
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Lear Siegler ADM-3A
+
+// sorted by TermSeq name
+const TermInfoVideoConv videoConv_WordStar[] = {
+
+  // Last item marker
+  { nullptr, 0, { } },
+};
+
+const TermInfo term_VT_WordStar = {
+  "",
+  videoConv_WordStar,
+  kbdConv_Generic
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Lear Siegler ADM-3A

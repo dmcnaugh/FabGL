@@ -950,6 +950,15 @@ enum VirtualKey {
   VK_SUPER_2,         /**< Superscript '2': ² */
   VK_SUPER_3,         /**< Superscript '3': ³ */
 
+  VK_SH_PAGEUP,          /**< Shift PAGEUP */
+  VK_SH_PAGEDOWN,        /**< Shift PAGEDOWN */
+  VK_SH_HOME,            /**< Shift HOME */
+  VK_SH_END,             /**< Shift END */
+  VK_SH_UP,              /**< Shift Cursor UP */
+  VK_SH_DOWN,            /**< Shift Cursor DOWN */
+  VK_SH_LEFT,            /**< Shift Cursor LEFT */
+  VK_SH_RIGHT,           /**< Shift Cursor RIGHT */
+
   VK_LAST,            // marks the last virtual key
 };
 

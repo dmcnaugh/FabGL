@@ -1460,6 +1460,9 @@ void Terminal::setTerminalType(TermType value)
     case TermType::ANSI_VT:
       setTerminalType(nullptr);
       break;
+    case TermType::WS_VT:
+      setTerminalType(&term_VT_WordStar);
+      break;
     case TermType::ADM3A:
       setTerminalType(&term_ADM3A);
       break;

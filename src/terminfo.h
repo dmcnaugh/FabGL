@@ -102,6 +102,7 @@ struct TermInfo {
  */
 enum TermType {
   ANSI_VT,        /**< Native ANSI/VT terminal */
+  WS_VT,          /**< Emualted WordStar/VT terminal */
   ADM3A,          /**< Emulated Lear Siegler ADM-3A terminal */
   ADM31,          /**< Emulated Lear Siegler ADM-31 terminal */
   Hazeltine1500,  /**< Emulated Hazeltine 1500 terminal */
@@ -112,6 +113,9 @@ enum TermType {
 
 
 
+
+// VT100 with WorkStar cursor keys
+extern const TermInfo term_VT_WordStar;
 
 // Lear Siegler ADM-3A
 extern const TermInfo term_ADM3A;
