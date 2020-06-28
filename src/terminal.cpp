@@ -1139,6 +1139,7 @@ void Terminal::restoreCursorState()
       memcpy(m_emuState.tabStop, m_savedCursorStateList->tabStop, m_columns);
     m_glyphOptions = m_savedCursorStateList->glyphOptions;
     m_canvas->setGlyphOptions(m_glyphOptions);
+    m_prevBlinkingTextEnabled = true;
     m_emuState.characterSetIndex = m_savedCursorStateList->characterSetIndex;
     for (int i = 0; i < 4; ++i)
       m_emuState.characterSet[i] = m_savedCursorStateList->characterSet[i];
