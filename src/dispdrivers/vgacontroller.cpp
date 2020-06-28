@@ -798,7 +798,7 @@ void IRAM_ATTR VGAController::swapRows(int yA, int yB, int x1, int x2)
 }
 
 
-void IRAM_ATTR VGAController::drawEllipse(Size const & size, Rect & updateRect)
+void VGAController::drawEllipse(Size const & size, Rect & updateRect)
 {
   genericDrawEllipse(size, updateRect,
                      [&] (RGB888 const & color)          { return preparePixel(color); },
@@ -1082,7 +1082,7 @@ void VGAController::writeScreen(Rect const & rect, RGB222 * srcBuf)
 }
 
 
-void IRAM_ATTR VGAController::rawDrawBitmap_Native(int destX, int destY, Bitmap const * bitmap, int X1, int Y1, int XCount, int YCount)
+void  VGAController::rawDrawBitmap_Native(int destX, int destY, Bitmap const * bitmap, int X1, int Y1, int XCount, int YCount)
 {
   genericRawDrawBitmap_Native(destX, destY, (uint8_t*) bitmap->data, bitmap->width, X1, Y1, XCount, YCount,
                               [&] (int y)                             { return (uint8_t*) m_viewPort[y]; },         // rawGetRow
@@ -1091,7 +1091,7 @@ void IRAM_ATTR VGAController::rawDrawBitmap_Native(int destX, int destY, Bitmap 
 }
 
 
-void IRAM_ATTR VGAController::rawDrawBitmap_Mask(int destX, int destY, Bitmap const * bitmap, void * saveBackground, int X1, int Y1, int XCount, int YCount)
+void  VGAController::rawDrawBitmap_Mask(int destX, int destY, Bitmap const * bitmap, void * saveBackground, int X1, int Y1, int XCount, int YCount)
 {
   auto foregroundPattern = preparePixel(bitmap->foregroundColor);
   genericRawDrawBitmap_Mask(destX, destY, bitmap, (uint8_t*)saveBackground, X1, Y1, XCount, YCount,
@@ -1102,7 +1102,7 @@ void IRAM_ATTR VGAController::rawDrawBitmap_Mask(int destX, int destY, Bitmap co
 }
 
 
-void IRAM_ATTR VGAController::rawDrawBitmap_RGBA2222(int destX, int destY, Bitmap const * bitmap, void * saveBackground, int X1, int Y1, int XCount, int YCount)
+void  VGAController::rawDrawBitmap_RGBA2222(int destX, int destY, Bitmap const * bitmap, void * saveBackground, int X1, int Y1, int XCount, int YCount)
 {
   genericRawDrawBitmap_RGBA2222(destX, destY, bitmap, (uint8_t*)saveBackground, X1, Y1, XCount, YCount,
                                 [&] (int y)                             { return (uint8_t*) m_viewPort[y]; },                   // rawGetRow
@@ -1112,7 +1112,7 @@ void IRAM_ATTR VGAController::rawDrawBitmap_RGBA2222(int destX, int destY, Bitma
 }
 
 
-void IRAM_ATTR VGAController::rawDrawBitmap_RGBA8888(int destX, int destY, Bitmap const * bitmap, void * saveBackground, int X1, int Y1, int XCount, int YCount)
+void  VGAController::rawDrawBitmap_RGBA8888(int destX, int destY, Bitmap const * bitmap, void * saveBackground, int X1, int Y1, int XCount, int YCount)
 {
   genericRawDrawBitmap_RGBA8888(destX, destY, bitmap, (uint8_t*)saveBackground, X1, Y1, XCount, YCount,
                                  [&] (int y)                                      { return (uint8_t*) m_viewPort[y]; },   // rawGetRow

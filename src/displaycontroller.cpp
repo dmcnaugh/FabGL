@@ -539,7 +539,7 @@ void DisplayController::refreshSprites()
 }
 
 
-void IRAM_ATTR DisplayController::hideSprites(Rect & updateRect)
+void DisplayController::hideSprites(Rect & updateRect)
 {
   if (!m_spritesHidden) {
     m_spritesHidden = true;
@@ -579,7 +579,7 @@ void IRAM_ATTR DisplayController::hideSprites(Rect & updateRect)
 }
 
 
-void IRAM_ATTR DisplayController::showSprites(Rect & updateRect)
+void DisplayController::showSprites(Rect & updateRect)
 {
   if (m_spritesHidden) {
     m_spritesHidden = false;
@@ -873,7 +873,7 @@ void IRAM_ATTR DisplayController::fillRect(Rect const & rect, RGB888 const & col
 
 
 // McIlroy's algorithm
-void IRAM_ATTR DisplayController::fillEllipse(int centerX, int centerY, Size const & size, RGB888 const & color, Rect & updateRect)
+void DisplayController::fillEllipse(int centerX, int centerY, Size const & size, RGB888 const & color, Rect & updateRect)
 {
   const int clipX1 = paintState().absClippingRect.X1;
   const int clipY1 = paintState().absClippingRect.Y1;
