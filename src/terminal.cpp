@@ -2400,6 +2400,16 @@ void Terminal::consumeCSI()
       }
       break;
 
+    // ESC [ s : SCOSC, save current cursor state (position and attributes)
+    case 's':
+      saveCursorState();
+      break;
+
+    // ESC [ u : SCORC, restore current cursor state (position and attributes)
+    case 'u':
+      restoreCursorState();
+      break;
+
     default:
       #if FABGLIB_TERMINAL_DEBUG_REPORT_UNSUPPORT
       log("Unknown: ESC [ ");
