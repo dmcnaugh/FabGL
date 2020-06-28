@@ -1209,9 +1209,9 @@ protected:
 
     // a very simple and ugly reduce luminosity (faint) implementation!
     if (glyphOptions.reduceLuminosity) {
-      if (penColor.R > 128) penColor.R = 128;
-      if (penColor.G > 128) penColor.G = 128;
-      if (penColor.B > 128) penColor.B = 128;
+      if (penColor.R >= 128) penColor.R = (penColor.R + 1) / 2;
+      if (penColor.G >= 128) penColor.G = (penColor.G + 1) / 2;
+      if (penColor.B >= 128) penColor.B = (penColor.B + 1) / 2;
     }
 
     auto penPattern   = preparePixel(penColor);
@@ -1341,9 +1341,9 @@ protected:
 
     // a very simple and ugly reduce luminosity (faint) implementation!
     if (glyphOptions.reduceLuminosity) {
-      if (penColor.R > 128) penColor.R = 128;
-      if (penColor.G > 128) penColor.G = 128;
-      if (penColor.B > 128) penColor.B = 128;
+      if (penColor.R >= 128) penColor.R = (penColor.R + 1) / 2;
+      if (penColor.G >= 128) penColor.G = (penColor.G + 1) / 2;
+      if (penColor.B >= 128) penColor.B = (penColor.B + 1) / 2;
     }
 
     bool fillBackground = glyphOptions.fillBackground;
