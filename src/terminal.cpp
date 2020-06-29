@@ -486,7 +486,9 @@ void Terminal::loadFont(FontInfo const * font)
 #endif
 
   m_columns = tmin(m_canvas->getWidth() / m_font.width, 132);
-  m_rows    = tmin(m_canvas->getHeight() / m_font.height, 25);
+  m_rows    = tmin(m_canvas->getHeight() / m_font.height, 30);
+
+  m_canvas->setClippingRect(Rect(0, 0, m_columns * m_font.width - 1, m_rows * m_font.height - 1));
 
   freeTabStops();
   m_emuState.tabStop = (uint8_t*) malloc(m_columns);
