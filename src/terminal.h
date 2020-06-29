@@ -862,7 +862,7 @@ protected:
   void blinkCursor();
   bool int_enableCursor(bool value);
 
-  static void IRAM_ATTR uart_isr(void *arg);
+  static void uart_isr(void *arg);
 
   char getNextCode(bool processCtrlCodes);
 
