@@ -342,6 +342,10 @@ struct EmuState {
 
   // Allow FabGL specific sequences (ESC 0xFF .....)
   int          allowFabGLSequences;  // >0 allow, 0 = don't allow
+
+  bool        boldBright;
+  bool        boldThick;
+  bool        ansiED;
 };
 
 

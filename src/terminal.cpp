@@ -1642,6 +1642,7 @@ void Terminal::convQueue(const char * str, bool fromISR)
 bool Terminal::setChar(char c)
 {
   bool vscroll = false;
+  Color renderColor;
 
   if (m_emuState.cursorPastLastCol) {
     if (m_emuState.wraparound) {
@@ -1658,10 +1659,18 @@ bool Terminal::setChar(char c)
 
   GlyphOptions glyphOptions = m_glyphOptions;
 
+  if (glyphOptions.bold) {
+    glyphOptions.bold = m_emuState.boldThick;
+    renderColor = (Color)((m_emuState.boldBright && m_emuState.foregroundColor <= Color::White) ? m_emuState.foregroundColor + Color::White + 1 : m_emuState.foregroundColor);
+    m_canvas->setPenColor(renderColor);
+  } else {
+    renderColor = m_emuState.foregroundColor;
+  }
+
   // doubleWidth must be maintained
   uint32_t * mapItemPtr = m_glyphsBuffer.map + (m_emuState.cursorX - 1) + (m_emuState.cursorY - 1) * m_columns;
   glyphOptions.doubleWidth = glyphMapItem_getOptions(mapItemPtr).doubleWidth;
-  *mapItemPtr = GLYPHMAP_ITEM_MAKE(c, m_emuState.backgroundColor, m_emuState.foregroundColor, glyphOptions);
+  *mapItemPtr = GLYPHMAP_ITEM_MAKE(c, m_emuState.backgroundColor, renderColor, glyphOptions);
 
   if (glyphOptions.value != m_glyphOptions.value)
     m_canvas->setGlyphOptions(glyphOptions);
@@ -1682,6 +1691,8 @@ bool Terminal::setChar(char c)
   } else {
     setCursorPos(m_emuState.cursorX + 1, m_emuState.cursorY);
   }
+
+  if (renderColor != m_emuState.foregroundColor) m_canvas->setPenColor(m_emuState.foregroundColor);
 
   return vscroll;
 }
@@ -2213,6 +2224,7 @@ void Terminal::consumeCSI()
           break;
         case 2:
           erase(1, 1, m_columns, m_rows, ASCII_SPC, false, questionMarkFound);
+          if (m_emuState.ansiED) setCursorPos(1, 1);
           break;
       }
       break;
