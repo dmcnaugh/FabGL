@@ -359,6 +359,14 @@ public:
    */
   bool setLEDs(bool numLock, bool capsLock, bool scrollLock) { return send_cmdLEDs(numLock, capsLock, scrollLock); }
 
+  bool setLocks(bool numLock, bool capsLock, bool scrollLock) {
+    bool res = setLEDs(numLock, capsLock, scrollLock);
+    if (res) {
+      m_NUMLOCK = numLock; m_CAPSLOCK = capsLock; m_SCROLLLOCK = scrollLock;
+    }
+    return res;
+  }
+
   /**
    * @brief Gets keyboard LEDs status.
    *
