@@ -749,6 +749,7 @@ void Terminal::blinkCursor()
 
 void Terminal::blinkText()
 {
+  bool prevPosBlink = false;
   m_blinkingTextVisible = !m_blinkingTextVisible;
   bool keepEnabled = false;
   int rows = m_rows;
@@ -764,6 +765,10 @@ void Terminal::blinkText()
         glyphMapItem_setOptions(itemPtr, glyphOptions);
         refresh(x + 1, y + 1);
         keepEnabled = true;
+        if (glyphOptions.italic && glyphOptions.blank) prevPosBlink = true;
+      } else if (prevPosBlink) {
+        refresh(x + 1, y + 1);
+        prevPosBlink = false;
       }
     }
     m_canvas->waitCompletion(false);
