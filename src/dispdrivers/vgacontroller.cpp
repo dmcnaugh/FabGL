@@ -714,7 +714,7 @@ void IRAM_ATTR VGAController::VSyncInterrupt()
 }
 
 
-void IRAM_ATTR VGAController::setPixelAt(PixelDesc const & pixelDesc, Rect & updateRect)
+void VGAController::setPixelAt(PixelDesc const & pixelDesc, Rect & updateRect)
 {
   genericSetPixelAt(pixelDesc, updateRect,
                     [&] (RGB888 const & color)          { return preparePixel(color); },
@@ -725,7 +725,7 @@ void IRAM_ATTR VGAController::setPixelAt(PixelDesc const & pixelDesc, Rect & upd
 
 // coordinates are absolute values (not relative to origin)
 // line clipped on current absolute clipping rectangle
-void IRAM_ATTR VGAController::absDrawLine(int X1, int Y1, int X2, int Y2, RGB888 color)
+void VGAController::absDrawLine(int X1, int Y1, int X2, int Y2, RGB888 color)
 {
   genericAbsDrawLine(X1, Y1, X2, Y2, color,
                      [&] (RGB888 const & color)                   { return preparePixel(color); },
