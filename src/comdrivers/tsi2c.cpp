@@ -65,7 +65,7 @@ bool I2C::begin(gpio_num_t SDAGPIO, gpio_num_t SCLGPIO)
 
   // why a task? Because esp32 i2c communications must be done on the same core
   // must be pinned to one core (0 in this case)
-  xTaskCreatePinnedToCore(&commTaskFunc, "", I2C_COMMTASK_STACK, this, I2C_COMMTASK_PRIORITY, &m_commTaskHandle, 0);
+  xTaskCreatePinnedToCore(&commTaskFunc, "I2C", I2C_COMMTASK_STACK, this, I2C_COMMTASK_PRIORITY, &m_commTaskHandle, 0);
 
   // wait for commTaskFunc() ends initialization
   xEventGroupWaitBits(m_eventGroup, EVTGROUP_DONE, true, false, portMAX_DELAY);

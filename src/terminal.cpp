@@ -150,7 +150,7 @@ void Terminal::begin(DisplayController * displayController, Keyboard * keyboard)
 
   // queue and task to consume input characters
   m_inputQueue = xQueueCreate(FABGLIB_TERMINAL_INPUT_QUEUE_SIZE, sizeof(uint8_t));
-  xTaskCreate(&charsConsumerTask, "", FABGLIB_CHARS_CONSUMER_TASK_STACK_SIZE, this, FABGLIB_CHARS_CONSUMER_TASK_PRIORITY, &m_charsConsumerTaskHandle);
+  xTaskCreate(&charsConsumerTask, "CCT", FABGLIB_CHARS_CONSUMER_TASK_STACK_SIZE, this, FABGLIB_CHARS_CONSUMER_TASK_PRIORITY, &m_charsConsumerTaskHandle);
 
   m_defaultBackgroundColor = Color::Black;
   m_defaultForegroundColor = Color::White;
@@ -178,7 +178,7 @@ void Terminal::connectSerialPort(Stream & serialPort, bool autoXONXOFF)
   m_serialPort->setRxBufferSize(FABGLIB_TERMINAL_INPUT_QUEUE_SIZE);
 
   if (m_keyboard->isKeyboardAvailable())
-    xTaskCreate(&keyboardReaderTask, "", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle);
+    xTaskCreate(&keyboardReaderTask, "KRTSP1", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle);
 
   // just in case a reset occurred after an XOFF
   if (m_autoXONOFF)
@@ -300,7 +300,7 @@ void Terminal::connectSerialPort(uint32_t baud, uint32_t config, int rxPin, int 
   //addApbChangeCallback(this, uart_on_apb_change);
 
   if (m_keyboard->isKeyboardAvailable())
-    xTaskCreate(&keyboardReaderTask, "", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle);
+    xTaskCreate(&keyboardReaderTask, "KRTSP2", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle);
 }
 
 
@@ -308,7 +308,7 @@ void Terminal::connectLocally()
 {
   m_outputQueue = xQueueCreate(FABGLIB_TERMINAL_OUTPUT_QUEUE_SIZE, sizeof(uint8_t));
   if (!m_keyboardReaderTaskHandle && m_keyboard->isKeyboardAvailable())
-    xTaskCreate(&keyboardReaderTask, "", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle);
+    xTaskCreate(&keyboardReaderTask, "KRTL", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle);
 }
 
 

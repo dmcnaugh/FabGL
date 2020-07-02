@@ -216,7 +216,7 @@ void TFTController::setResolution(char const * modeline, int viewPortWidth, int 
   softReset();
 
   // setup update task
-  xTaskCreate(&updateTaskFunc, "", TFT_UPDATETASK_STACK, this, TFT_UPDATETASK_PRIORITY, &m_updateTaskHandle);
+  xTaskCreate(&updateTaskFunc, "TFT", TFT_UPDATETASK_STACK, this, TFT_UPDATETASK_PRIORITY, &m_updateTaskHandle);
 
   // allows updateTaskFunc() to run
   m_updateTaskFuncSuspended = 0;

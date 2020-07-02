@@ -45,7 +45,7 @@ Scene::Scene(int maxSpritesCount, int updateTimeMS, int width, int height, int s
 {
   m_mutex = xSemaphoreCreateMutex();
   xSemaphoreTake(m_mutex, portMAX_DELAY);  // suspend update task
-  xTaskCreate(updateTask, "", FABGL_DEFAULT_SCENETASK_STACKSIZE, this, 5, &m_updateTaskHandle);
+  xTaskCreate(updateTask, "SCENE", FABGL_DEFAULT_SCENETASK_STACKSIZE, this, 5, &m_updateTaskHandle);
 }
 
 

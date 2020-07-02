@@ -172,7 +172,7 @@ void SSD1306Controller::setResolution(char const * modeline, int viewPortWidth, 
   allocScreenBuffer();
 
   // setup update task
-  xTaskCreate(&updateTaskFunc, "", SSD1306_UPDATETASK_STACK, this, SSD1306_UPDATETASK_PRIORITY, &m_updateTaskHandle);
+  xTaskCreate(&updateTaskFunc, "1306", SSD1306_UPDATETASK_STACK, this, SSD1306_UPDATETASK_PRIORITY, &m_updateTaskHandle);
 
   // allows updateTaskFunc() to run
   m_updateTaskFuncSuspended = 0;
