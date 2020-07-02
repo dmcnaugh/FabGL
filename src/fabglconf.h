@@ -72,7 +72,7 @@
 
 
 /** Stack size of the task that reads keys from keyboard and send ANSI/VT codes to output stream in Terminal */
-#define FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE 2048
+#define FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE 1024 //2048
 
 
 /** Priority of the task that reads keys from keyboard and send ANSI/VT codes to output stream in Terminal */
