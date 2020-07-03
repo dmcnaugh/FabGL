@@ -1818,10 +1818,12 @@ void Terminal::consumeInputQueue()
   if (c == ASCII_ESC)
     consumeESC();
 
-  else if (ISCTRLCHAR(c))
-    execCtrlCode(c);
+  else if (ISCTRLCHAR(c)) {
+    if (!execCtrlCode(c) && m_emuState.ansiSYS) {
+      setChar(c);
+    }
 
-  else {
+  } else {
     setChar(mapChar(c));
   }
 
@@ -1843,8 +1845,9 @@ char Terminal::mapChar(char c)
     return c;
 }
 
-void Terminal::execCtrlCode(char c)
+bool Terminal::execCtrlCode(char c)
 {
+  bool ret = true;
   switch (c) {
 
     // BS
@@ -1896,22 +1899,27 @@ void Terminal::execCtrlCode(char c)
     // SO
     // Shift Out. Switch to Alternate Character Set (G1)
     case ASCII_SO:
+      if (m_emuState.ansiSYS) return false;
       m_emuState.characterSetIndex = 1;
       break;
 
     // SI
     // Shift In. Switch to Standard Character Set (G0)
     case ASCII_SI:
+      if (m_emuState.ansiSYS) return false;
       m_emuState.characterSetIndex = 0;
       break;
 
     case ASCII_DEL:
+      if (m_emuState.ansiSYS) return false;
       // nothing to do
       break;
 
     default:
+      ret = false;
       break;
   }
+  return ret;
 }
 
 
@@ -2231,7 +2239,7 @@ void Terminal::consumeCSI()
           break;
         case 2:
           erase(1, 1, m_columns, m_rows, ASCII_SPC, false, questionMarkFound);
-          if (m_emuState.ansiED) setCursorPos(1, 1);
+          if (m_emuState.ansiSYS) setCursorPos(1, 1);
           break;
       }
       break;

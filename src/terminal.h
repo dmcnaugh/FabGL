@@ -345,7 +345,7 @@ struct EmuState {
 
   bool        boldBright;
   bool        boldThick;
-  bool        ansiED;
+  bool        ansiSYS;
 };
 
 
@@ -855,7 +855,7 @@ protected:
   void execSGRParameters(int const * params, int paramsCount);
   void consumeESCVT52();
 
-  virtual void execCtrlCode(char c);
+  virtual bool execCtrlCode(char c);
 
   static void charsConsumerTask(void * pvParameters);
   static void keyboardReaderTask(void * pvParameters);
