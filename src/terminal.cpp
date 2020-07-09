@@ -395,13 +395,14 @@ void Terminal::end()
 }
 
 
-void Terminal::reset()
+void Terminal::reset(bool soft)
 {
   #if FABGLIB_TERMINAL_DEBUG_REPORT_DESCS
   log("reset()\n");
   #endif
 
   xSemaphoreTake(m_mutex, portMAX_DELAY);
+  m_softReset = false;
   m_resetRequested = false;
 
   m_emuState.originMode            = false;
@@ -1833,7 +1834,7 @@ void Terminal::consumeInputQueue()
   xSemaphoreGive(m_mutex);
 
   if (m_resetRequested)
-    reset();
+    reset(m_softReset);
 }
 
 char Terminal::mapChar(char c)
@@ -2435,6 +2436,12 @@ void Terminal::consumeCSI()
     // ESC [ u : SCORC, restore current cursor state (position and attributes)
     case 'u':
       restoreCursorState();
+      break;
+
+    // ESC [ ! : DECSTR, Soft Terminal Reset (from VT510 programmers manual)
+    case '!':
+      m_softReset = true;
+      m_resetRequested = true; // reset() actually called by consumeInputQueue()
       break;
 
     default:

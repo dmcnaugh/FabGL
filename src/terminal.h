@@ -804,7 +804,7 @@ public:
 
 protected:
 
-  virtual void reset();
+  virtual void reset(bool soft = false);
   void int_clear();
   void clearMap(uint32_t * map);
 
@@ -994,6 +994,7 @@ protected:
 
   // a reset has been requested
   bool                      m_resetRequested;
+  bool                      m_softReset;
 
   volatile bool             m_autoXONOFF;
   volatile bool             m_XOFF;       // true = XOFF sent
