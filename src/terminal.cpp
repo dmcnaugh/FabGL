@@ -921,7 +921,7 @@ void Terminal::setScrollingRegion(int top, int down, bool resetCursorPos)
 
 void Terminal::updateCanvasScrollingRegion()
 {
-  m_canvas->setScrollingRegion(0, (m_emuState.scrollingRegionTop - 1) * m_font.height, m_canvas->getWidth() - 1, m_emuState.scrollingRegionDown * m_font.height - 1);
+m_canvas->setScrollingRegion(0, (m_emuState.scrollingRegionTop - 1) * m_font.height, m_columns * m_font.width - 1, m_emuState.scrollingRegionDown * m_font.height - 1);
 }
 
 
