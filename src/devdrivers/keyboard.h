@@ -400,6 +400,7 @@ private:
   VirtualKey VKtoAlternateVK(VirtualKey in_vk, KeyboardLayout const * layout = nullptr);
   void updateLEDs();
   VirtualKey blockingGetVirtualKey(bool * keyDown);
+  VirtualKey postProcessVK(VirtualKey vk, bool kdown, bool * keyDown);
   static void SCodeToVKConverterTask(void * pvParameters);
 
 
@@ -426,6 +427,16 @@ private:
   bool                      m_numLockLED;
   bool                      m_capsLockLED;
   bool                      m_scrollLockLED;
+
+  uint8_t u_cmd[15] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+  int u_cc = 0;
+  int u_meta = 0;
+  uint8_t u_prev[10] = { 0,0,0,0,0,0,0,0,0,0 };
+  bool u_usb = false;
+
+  VirtualKey processUSB(bool * keyDown);
+  void updateUSB_LEDS(void);
+
 };
 
 
