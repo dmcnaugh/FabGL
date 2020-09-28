@@ -59,6 +59,47 @@ int evt_out = 0;
 
 const VirtualKey meta[8] = { VK_LCTRL, VK_LSHIFT, VK_LALT,  VK_LGUI, VK_RCTRL, VK_RSHIFT, VK_RALT, VK_RGUI };
 
+int Keyboard::identifyUSBKBhost(void)
+{
+  usbkb->write('R' + 0x80);
+  vTaskDelay(10 / portTICK_PERIOD_MS);
+  usbkb->write('\n');
+  vTaskDelay(100 / portTICK_PERIOD_MS);
+  usbkb->write('\n');
+  vTaskDelay(10 / portTICK_PERIOD_MS);
+  usbkb->write('I' + 0x80);
+  vTaskDelay(10 / portTICK_PERIOD_MS);
+  usbkb->write('\n');
+  vTaskDelay(10 / portTICK_PERIOD_MS);
+
+  char c = 0;
+  int i = -1;
+
+  while (usbkb->available() && c != '\n') {
+    c = usbkb->read();
+    if (c == 'U') i = 0;
+    if (c == 'K') i++;
+  }
+
+  if (i != -1) {
+    usbkb->write('\n');
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    usbkb->write('L' + 0x80);
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    usbkb->write('G');
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    usbkb->write('\n');
+    vTaskDelay(500 / portTICK_PERIOD_MS);
+    usbkb->write('L' + 0x80);
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    usbkb->write('@');
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    usbkb->write('\n');
+  }
+
+  return i;
+}
+
 void Keyboard::updateUSB_LEDS(void)
 {
 if (u_usb) {

@@ -394,6 +394,8 @@ public:
   static char const * virtualKeyToString(VirtualKey virtualKey);
 #endif
 
+  static int identifyUSBKBhost(void); 
+
 private:
 
   VirtualKey scancodeToVK(uint8_t scancode, bool isExtended, KeyboardLayout const * layout = nullptr);
