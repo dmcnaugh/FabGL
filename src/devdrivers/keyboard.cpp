@@ -969,9 +969,13 @@ void Keyboard::SCodeToVKConverterTask(void * pvParameters)
   while (true) {
     bool keyDown;
     VirtualKey vk = VK_NONE;
-    if (!usbkb) vk = keyboard->blockingGetVirtualKey(&keyDown);
-    if (vk == VK_NONE && usbkb) vk = keyboard->processUSB(&keyDown);
-    vTaskDelay(10 / portTICK_PERIOD_MS);
+    if (usbkb) {
+      vk = keyboard->processUSB(&keyDown);
+      vTaskDelay(10 / portTICK_PERIOD_MS);
+    } else {
+      vk = keyboard->blockingGetVirtualKey(&keyDown);
+    }
+    
     if (vk != VK_NONE) {
 
       // update m_VKMap
