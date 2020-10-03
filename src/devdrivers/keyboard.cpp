@@ -30,6 +30,8 @@
 
 #include "keyboard.h"
 
+#include "arduino.h"
+extern HardwareSerial *usbkb;
 
 
 
@@ -471,7 +473,11 @@ Keyboard::Keyboard()
 
 void Keyboard::begin(bool generateVirtualKeys, bool createVKQueue, int PS2Port)
 {
-  PS2Device::begin(PS2Port);
+  if (PS2Port >= 0) {
+    PS2Device::begin(PS2Port);
+  } else {
+    m_keyboardAvailable = true; // USB Keyboard
+  }
 
   m_CTRL       = false;
   m_ALT        = false;
@@ -494,7 +500,7 @@ void Keyboard::begin(bool generateVirtualKeys, bool createVKQueue, int PS2Port)
   if (generateVirtualKeys || createVKQueue) {
     if (createVKQueue)
       m_virtualKeyQueue = xQueueCreate(FABGLIB_KEYBOARD_VIRTUALKEY_QUEUE_SIZE, sizeof(uint16_t));
-    xTaskCreatePinnedToCore(&SCodeToVKConverterTask, "SC2VK", FABGLIB_SCODETOVK_TASK_STACK_SIZE, this, FABGLIB_SCODETOVK_TASK_PRIORITY, &m_SCodeToVKConverterTask, 1);
+    xTaskCreatePinnedToCore(&SCodeToVKConverterTask, "SC2VK", FABGLIB_SCODETOVK_TASK_STACK_SIZE * 2, this, FABGLIB_SCODETOVK_TASK_PRIORITY, &m_SCodeToVKConverterTask, 1);
   }
 }
 
@@ -516,12 +522,14 @@ bool Keyboard::reset()
   // sets default layout
   setLayout(&USLayout);
 
-  // tries up to three times to reset keyboard
-  for (int i = 0; i < 3; ++i) {
-    m_keyboardAvailable = send_cmdReset() && send_cmdSetScancodeSet(2);
-    if (m_keyboardAvailable)
-      break;
-    vTaskDelay(500 / portTICK_PERIOD_MS);
+  if (!m_keyboardAvailable) {
+    // tries up to three times to reset keyboard
+    for (int i = 0; i < 3; ++i) {
+      m_keyboardAvailable = send_cmdReset() && send_cmdSetScancodeSet(2);
+      if (m_keyboardAvailable)
+        break;
+      vTaskDelay(500 / portTICK_PERIOD_MS);
+    }
   }
 
   return m_keyboardAvailable;
@@ -561,6 +569,8 @@ void Keyboard::updateLEDs()
   m_numLockLED    = m_NUMLOCK;
   m_capsLockLED   = m_CAPSLOCK;
   m_scrollLockLED = m_SCROLLLOCK;
+
+  updateUSB_LEDS();
 }
 
 
@@ -896,6 +906,13 @@ VirtualKey Keyboard::blockingGetVirtualKey(bool * keyDown)
     }
   } while (false);
 
+  return postProcessVK(vk, kdown, keyDown);
+}
+
+VirtualKey Keyboard::postProcessVK(VirtualKey vk, bool kdown, bool * keyDown)
+{
+
+
   if (vk != VK_NONE) {
 
     // alternate VK (virtualkeys modified by shift, alt, ...)
@@ -951,7 +968,14 @@ void Keyboard::SCodeToVKConverterTask(void * pvParameters)
   Keyboard * keyboard = (Keyboard*) pvParameters;
   while (true) {
     bool keyDown;
-    VirtualKey vk = keyboard->blockingGetVirtualKey(&keyDown);
+    VirtualKey vk = VK_NONE;
+    if (usbkb) {
+      vk = keyboard->processUSB(&keyDown);
+      vTaskDelay(10 / portTICK_PERIOD_MS);
+    } else {
+      vk = keyboard->blockingGetVirtualKey(&keyDown);
+    }
+    
     if (vk != VK_NONE) {
 
       // update m_VKMap
