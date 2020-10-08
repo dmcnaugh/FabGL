@@ -810,7 +810,7 @@ protected:
 
   void freeFont();
   void freeTabStops();
-  void freeGlyphsMap();
+  virtual void freeGlyphsMap();
 
   virtual void set132ColumnMode(bool value);
 
@@ -831,7 +831,7 @@ protected:
   // scroll control
   void scrollDown();
   void scrollDownAt(int startingRow);
-  void scrollUp();
+  virtual void scrollUp();
   void scrollUpAt(int startingRow);
   void setScrollingRegion(int top, int down, bool resetCursorPos = true);
   void updateCanvasScrollingRegion();
