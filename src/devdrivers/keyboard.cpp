@@ -338,7 +338,7 @@ const KeyboardLayout UKLayout {
 /**************************************************************************************/
 const KeyboardLayout FrenchLayout {
   // name
-  "French",
+  "Fran" "\xE7" "ais",
 
   // inherited layout
   &USLayout,
@@ -426,7 +426,7 @@ const KeyboardLayout FrenchLayout {
 /**************************************************************************************/
 const KeyboardLayout SwedishLayout {
   // name
-  "Swedish",
+  "Svenska",
 
   // inherited layout
   &USLayout,
@@ -495,7 +495,7 @@ const KeyboardLayout SwedishLayout {
 /**************************************************************************************/
 const KeyboardLayout GermanLayout {
   // name
-  "German",
+  "Deutsche",
 
   // inherited layout
   &USLayout,
@@ -563,7 +563,7 @@ const KeyboardLayout GermanLayout {
 /**************************************************************************************/
 const KeyboardLayout ItalianLayout {
   // name
-  "Italian",
+  "Italiano",
 
   // inherited layout
   &USLayout,
