@@ -675,8 +675,9 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
     case VK_GRAVEACCENT:
       return 0x60;  // "`"
 
-    case VK_ACUTEACCENT:
-      return 0xB4;  // "´"
+// Does not exisit in DEC MCS
+    // case VK_ACUTEACCENT:
+    //   return 0xB4;  // "´"
 
     case VK_QUOTE:
       return '\'';  // "'"
@@ -740,8 +741,9 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
     case VK_POUND:
       return 0xA3;  // '£'
 
-    case VK_EURO:
-      return 0xEE;  // '€' - non 8 bit ascii
+// Does not exisit in DEC MCS
+    // case VK_EURO:
+    //   return 0xEE;  // '€' - non 8 bit ascii
 
     case VK_PERCENT:
       return '%';
@@ -807,8 +809,9 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
     case VK_TILDE:
       return m_CTRL ? ASCII_RS : '~';   // CTRL ~ = RS, otherwise "~"
 
-    case VK_NEGATION:
-      return 0xAC;  // "¬"
+// Does not exisit in DEC MCS
+    // case VK_NEGATION:
+    //   return 0xAC;  // "¬"
 
     case VK_BACKSPACE:
       return ASCII_BS;
