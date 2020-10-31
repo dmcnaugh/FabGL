@@ -596,8 +596,8 @@ char const * Keyboard::virtualKeyToString(VirtualKey virtualKey)
                              "VK_SCROLLLOCK", "VK_NUMLOCK", "VK_CAPSLOCK", "VK_TAB", "VK_RETURN", "VK_KP_ENTER", "VK_APPLICATION", "VK_PAGEUP", "VK_KP_PAGEUP", "VK_PAGEDOWN", "VK_KP_PAGEDOWN", "VK_UP", "VK_KP_UP",
                              "VK_DOWN", "VK_KP_DOWN", "VK_LEFT", "VK_KP_LEFT", "VK_RIGHT", "VK_KP_RIGHT", "VK_KP_CENTER", "VK_F1", "VK_F2", "VK_F3", "VK_F4", "VK_F5", "VK_F6", "VK_F7", "VK_F8", "VK_F9", "VK_F10", "VK_F11", "VK_F12",
                              "VK_GRAVE_a", "VK_GRAVE_e", "VK_ACUTE_e", "VK_GRAVE_i", "VK_GRAVE_o", "VK_GRAVE_u", "VK_CEDILLA_c", "VK_ESZETT", "VK_UMLAUT_u",
-                             "VK_UMLAUT_o", "VK_UMLAUT_a",
-                             "VK_UMLAUT_U", "VK_UMLAUT_O", "VK_UMLAUT_A", "VK_MICRO", "VK_SUPER_2", "VK_SUPER_3",
+                             "VK_UMLAUT_o", "VK_UMLAUT_a", "VK_a_RING",
+                             "VK_UMLAUT_U", "VK_UMLAUT_O", "VK_UMLAUT_A", "VK_A_RING", "VK_MICRO", "VK_SUPER_2", "VK_SUPER_3", "VK_CURRENCY", "VK_HALF", "VK_DIAERESIS"
                              "VK_SH_PAGEUP", "VK_SH_PAGEDOWN", "VK_SH_HOME", "VK_SH_END", "VK_SH_UP", "VK_SH_DOWN", "VK_SH_LEFT", "VK_SH_RIGHT",
                             };
   return VKTOSTR[virtualKey];
@@ -657,6 +657,9 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
     case VK_UMLAUT_a:
       return 0xE4;  // ä
 
+    case VK_a_RING:
+      return 0xE5;  // å
+
     case VK_UMLAUT_U:
       return 0xDC;  // Ü
 
@@ -665,6 +668,9 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
 
     case VK_UMLAUT_A:
       return 0xC4;  // Ä
+
+    case VK_A_RING:
+      return 0xC5;  // Å
 
     case VK_GRAVEACCENT:
       return 0x60;  // "`"
@@ -785,8 +791,18 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
     case VK_DEGREE:
       return 0xB0;  // '°'
 
+    case VK_HALF:
+      return 0xBD;  // '½'
+
     case VK_SECTION:
       return 0xA7;  // "§"
+
+    case VK_CURRENCY:
+      return 0xA8;  // "¤"
+
+// Does not exisit in DEC MCS
+    // case VK_DIAERESIS:
+    //   return 0xA8;  // "¨"
 
     case VK_TILDE:
       return m_CTRL ? ASCII_RS : '~';   // CTRL ~ = RS, otherwise "~"
