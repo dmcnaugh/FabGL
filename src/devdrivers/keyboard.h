@@ -130,6 +130,9 @@ extern const KeyboardLayout GermanLayout;
 /** @brief Italian keyboard layout */
 extern const KeyboardLayout ItalianLayout;
 
+/** @brief Italian keyboard layout */
+extern const KeyboardLayout SwedishLayout;
+
 /** @brief Test keyboard layout */
 extern const KeyboardLayout TestLayout;
 
