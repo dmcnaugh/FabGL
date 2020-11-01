@@ -43,7 +43,7 @@ static const VirtualKey usb_to_VK[128] = {
   VirtualKey::VK_KP_LEFT, VirtualKey::VK_KP_CENTER, VirtualKey::VK_KP_RIGHT,
   VirtualKey::VK_KP_HOME, VirtualKey::VK_KP_UP, VirtualKey::VK_KP_PAGEUP,
   VirtualKey::VK_KP_INSERT, VirtualKey::VK_KP_DELETE,
-  VirtualKey::VK_NONE, VirtualKey::VK_APPLICATION,
+  VirtualKey::VK_INTL_BACKSLASH, VirtualKey::VK_APPLICATION,
 };
 
 
@@ -113,6 +113,43 @@ if (u_usb) {
     vTaskDelay(1 / portTICK_PERIOD_MS);
     usbkb->write('\n');
   }
+}
+
+VirtualKey Keyboard::remapUSBtoVK(VirtualKey in_vk, KeyboardLayout const * layout)
+{
+  VirtualKey vk = in_vk;
+  uint8_t scancode = 0; 
+
+  if (layout == nullptr)
+    layout = m_layout;
+
+  if (layout == &USLayout) return vk;
+
+  // Find VK in the USLayout and identify SCANCODE
+  for (VirtualKeyDef const * def = (&USLayout)->scancodeToVK; def->virtualKey != VK_NONE; ++def) {
+    if (def->virtualKey == in_vk) {
+      scancode = def->scancode;
+      break;
+    }
+  }
+
+  // Search down through the heirarchy for a match on SCANCODE for a replacement VK
+  // stop when the first match is found 
+  // while (layout->inherited != nullptr && vk == VK_NONE) {
+
+    if (scancode != 0) {
+      for (VirtualKeyDef const * def = layout->scancodeToVK; def->virtualKey != VK_NONE; ++def) {
+        if (def->scancode == scancode) {
+          vk = def->virtualKey;
+          break;
+        }
+      }
+    }
+
+  //   layout = layout->inherited;
+  // }
+
+  return scancode == 0 ? in_vk : vk;
 }
 
 VirtualKey Keyboard::processUSB(bool * keyDown)
@@ -279,7 +316,8 @@ VirtualKey Keyboard::processUSB(bool * keyDown)
       evt--;
       if (!evt) evt_out = 0;
 
-      vk = postProcessVK(vk, keydown, keyDown);
+      // vk = postProcessVK(vk, keydown, keyDown);
+      vk = postProcessVK(remapUSBtoVK(vk), keydown, keyDown);
     }
 
     return vk;

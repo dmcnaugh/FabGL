@@ -906,6 +906,7 @@ enum VirtualKey {
   VK_TAB,             /**< TAB */
   VK_RETURN,          /**< RETURN */
   VK_KP_ENTER,        /**< Keypad ENTER */
+  VK_INTL_BACKSLASH,  /**< International Keyboard Backspace */
   VK_APPLICATION,     /**< APPLICATION / MENU key */
   VK_PAGEUP,          /**< PAGEUP */
   VK_KP_PAGEUP,       /**< Keypad PAGEUP */

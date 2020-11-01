@@ -442,6 +442,7 @@ private:
   uint8_t u_prev[10] = { 0,0,0,0,0,0,0,0,0,0 };
   bool u_usb = false;
 
+  VirtualKey remapUSBtoVK(VirtualKey in_vk, KeyboardLayout const * layout = nullptr);
   VirtualKey processUSB(bool * keyDown);
   void updateUSB_LEDS(void);
 
