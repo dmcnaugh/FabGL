@@ -944,6 +944,11 @@ enum VirtualKey {
   VK_UMLAUT_o,        /**< Umlaut 'o': ö */
   VK_UMLAUT_a,        /**< Umlaut 'a': ä */
   VK_a_RING,          /**< Ring 'a': å */
+  VK_GRAVE_A,         /**< Grave 'A': À */
+  VK_GRAVE_E,         /**< Grave 'E': È */
+  VK_ACUTE_E,         /**< Acute 'E': É */
+  VK_GRAVE_U,         /**< Grave 'U': Ù */
+  VK_CEDILLA_C,       /**< Cedilla 'C': Ç */ 
   VK_UMLAUT_U,        /**< Umlaut 'U': Ü */
   VK_UMLAUT_O,        /**< Umlaut 'O': Ö */
   VK_UMLAUT_A,        /**< Umlaut 'A': Ä */

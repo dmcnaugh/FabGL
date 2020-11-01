@@ -395,6 +395,12 @@ const KeyboardLayout FrenchLayout {
     { VK_GRAVE_a,     { 0, 0, 1, 0, 0 }, VK_0 },            // SHIFT "à" = "0"
     { VK_RIGHTPAREN,  { 0, 0, 1, 0, 0 }, VK_DEGREE },       // SHIFT ")" = "°"
 
+    { VK_ACUTE_e,     { 0, 0, 0, 1, 0 }, VK_ACUTE_E },      // CAPSLOCK "é" = "É"
+    { VK_GRAVE_e,     { 0, 0, 0, 1, 0 }, VK_GRAVE_E },      // CAPSLOCK "è" = "È"
+    { VK_CEDILLA_c,   { 0, 0, 0, 1, 0 }, VK_CEDILLA_C },    // CAPSLOCK "ç" = "Ç"
+    { VK_GRAVE_a,     { 0, 0, 0, 1, 0 }, VK_GRAVE_A },      // CAPSLOCK "à" = "À"
+    { VK_GRAVE_u,     { 0, 0, 0, 1, 0 }, VK_GRAVE_U },      // CAPSLOCK "ù" = "Ù"
+
     { VK_CARET,       { 0, 0, 1, 0, 0 }, VK_DIAERESIS },    // SHIFT "^" = "¨"
     { VK_DOLLAR,      { 0, 0, 1, 0, 0 }, VK_POUND },        // SHIFT "$" = "£"
     { VK_GRAVE_u,     { 0, 0, 1, 0, 0 }, VK_PERCENT },      // SHIFT "û" = "%"
@@ -753,6 +759,7 @@ char const * Keyboard::virtualKeyToString(VirtualKey virtualKey)
                              "VK_DOWN", "VK_KP_DOWN", "VK_LEFT", "VK_KP_LEFT", "VK_RIGHT", "VK_KP_RIGHT", "VK_KP_CENTER", "VK_F1", "VK_F2", "VK_F3", "VK_F4", "VK_F5", "VK_F6", "VK_F7", "VK_F8", "VK_F9", "VK_F10", "VK_F11", "VK_F12",
                              "VK_GRAVE_a", "VK_GRAVE_e", "VK_ACUTE_e", "VK_GRAVE_i", "VK_GRAVE_o", "VK_GRAVE_u", "VK_CEDILLA_c", "VK_ESZETT", "VK_UMLAUT_u",
                              "VK_UMLAUT_o", "VK_UMLAUT_a", "VK_a_RING",
+                             "VK_GRAVE_A", "VK_GRAVE_E", "VK_ACUTE_E", "VK_GRAVE_U", "VK_CEDILLA_C",
                              "VK_UMLAUT_U", "VK_UMLAUT_O", "VK_UMLAUT_A", "VK_A_RING", "VK_MICRO", "VK_SUPER_2", "VK_SUPER_3", "VK_CURRENCY", "VK_HALF", "VK_DIAERESIS"
                              "VK_SH_PAGEUP", "VK_SH_PAGEDOWN", "VK_SH_HOME", "VK_SH_END", "VK_SH_UP", "VK_SH_DOWN", "VK_SH_LEFT", "VK_SH_RIGHT",
                             };
@@ -816,6 +823,21 @@ int Keyboard::virtualKeyToASCII(VirtualKey virtualKey)
     case VK_a_RING:
       return 0xE5;  // å
 
+    case VK_GRAVE_A:
+      return 0xC0;  // À
+
+    case VK_GRAVE_E:
+      return 0xC8;  // È
+
+    case VK_ACUTE_E:
+      return 0xC9;  // É
+
+    case VK_GRAVE_U:
+      return 0xD9;  // Ù
+
+    case VK_CEDILLA_C:
+      return 0xC7;  // Ç    
+      
     case VK_UMLAUT_U:
       return 0xDC;  // Ü
 
@@ -1028,6 +1050,7 @@ VirtualKey Keyboard::VKtoAlternateVK(VirtualKey in_vk, KeyboardLayout const * la
     if (def->reqVirtualKey == in_vk && def->ctrl == m_CTRL &&
                                        def->alt == m_ALT &&
                                        (def->shift == m_SHIFT || (def->capslock && def->capslock == m_CAPSLOCK)) &&
+                                      //  ((def->shift && def->shift == m_SHIFT) || (def->capslock && def->capslock == m_CAPSLOCK)) &&
                                        (!def->numlock || def->numlock== m_NUMLOCK)) {
       vk = def->virtualKey;
       break;
