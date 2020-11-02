@@ -117,13 +117,13 @@ if (u_usb) {
 
 VirtualKey Keyboard::remapUSBtoVK(VirtualKey in_vk, KeyboardLayout const * layout)
 {
-  VirtualKey vk = in_vk;
+  VirtualKey vk = VK_NONE;
   uint8_t scancode = 0; 
 
   if (layout == nullptr)
     layout = m_layout;
 
-  if (layout == &USLayout) return vk;
+  if (layout == &USLayout) return in_vk;
 
   // Find VK in the USLayout and identify SCANCODE
   for (VirtualKeyDef const * def = (&USLayout)->scancodeToVK; def->virtualKey != VK_NONE; ++def) {
@@ -135,7 +135,7 @@ VirtualKey Keyboard::remapUSBtoVK(VirtualKey in_vk, KeyboardLayout const * layou
 
   // Search down through the heirarchy for a match on SCANCODE for a replacement VK
   // stop when the first match is found 
-  // while (layout->inherited != nullptr && vk == VK_NONE) {
+  while (layout->inherited != nullptr && vk == VK_NONE) {
 
     if (scancode != 0) {
       for (VirtualKeyDef const * def = layout->scancodeToVK; def->virtualKey != VK_NONE; ++def) {
@@ -146,10 +146,10 @@ VirtualKey Keyboard::remapUSBtoVK(VirtualKey in_vk, KeyboardLayout const * layou
       }
     }
 
-  //   layout = layout->inherited;
-  // }
+    layout = layout->inherited;
+  }
 
-  return scancode == 0 ? in_vk : vk;
+  return vk == VK_NONE ? in_vk : vk;
 }
 
 VirtualKey Keyboard::processUSB(bool * keyDown)
