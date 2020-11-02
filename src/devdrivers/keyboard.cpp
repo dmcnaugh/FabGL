@@ -615,6 +615,8 @@ const KeyboardLayout ItalianLayout {
     { VK_COMMA,     { 0, 0, 1, 0, 0 }, VK_SEMICOLON },    // SHIFT "," = ";"
     { VK_PERIOD,    { 0, 0, 1, 0, 0 }, VK_COLON },        // SHIFT "." = ":"
     { VK_MINUS,     { 0, 0, 1, 0, 0 }, VK_UNDERSCORE },   // SHIFT "-" = "_"
+    { VK_GRAVE_e,   { 0, 1, 1, 0, 0 }, VK_LEFTBRACE },    // SHIFT ALT "è" = "{" - SHIFT+ALT must come before ALT for the same key
+    { VK_PLUS,      { 0, 1, 1, 0, 0 }, VK_RIGHTBRACE },   // SHIFT ALT "+" = "}" - SHIFT+ALT must come before ALT for the same key
     { VK_BACKSLASH, { 0, 1, 0, 0, 0 }, VK_GRAVEACCENT },  // ALT "\"   = "`"
     { VK_5,         { 0, 1, 0, 0, 0 }, VK_TILDE },        // ALT "5"   = "~"
     { VK_e,         { 0, 1, 0, 0, 0 }, VK_EURO },         // ALT "e"   = "€"
@@ -622,8 +624,6 @@ const KeyboardLayout ItalianLayout {
     { VK_PLUS,      { 0, 1, 0, 0, 0 }, VK_RIGHTBRACKET }, // ALT "+"   = "]"
     { VK_GRAVE_o,   { 0, 1, 0, 0, 0 }, VK_AT },           // ALT "ò"   = "@"
     { VK_GRAVE_a,   { 0, 1, 0, 0, 0 }, VK_HASH },         // ALT "à"   = "#"
-    { VK_GRAVE_e,   { 0, 1, 1, 0, 0 }, VK_LEFTBRACE },    // SHIFT ALT "è" = "{"
-    { VK_PLUS,      { 0, 1, 1, 0, 0 }, VK_RIGHTBRACE },   // SHIFT ALT "+" = "}"
   }
 };
 
@@ -1043,15 +1043,16 @@ VirtualKey Keyboard::scancodeToVK(uint8_t scancode, bool isExtended, KeyboardLay
 VirtualKey Keyboard::VKtoAlternateVK(VirtualKey in_vk, KeyboardLayout const * layout)
 {
   VirtualKey vk = VK_NONE;
+  uint8_t k_shift = (m_SHIFT << 1) + m_CAPSLOCK;
 
   if (layout == nullptr)
     layout = m_layout;
 
   for (AltVirtualKeyDef const * def = layout->alternateVK; def->reqVirtualKey != VK_NONE; ++def) {
+    uint8_t shift = (def->shift << 1) + def->capslock;
     if (def->reqVirtualKey == in_vk && def->ctrl == m_CTRL &&
                                        def->alt == m_ALT &&
-                                       (def->shift == m_SHIFT || (def->capslock && def->capslock == m_CAPSLOCK)) &&
-                                      //  ((def->shift && def->shift == m_SHIFT) || (def->capslock && def->capslock == m_CAPSLOCK)) &&
+                                       (!shift || (shift & k_shift)) && 
                                        (!def->numlock || def->numlock== m_NUMLOCK)) {
       vk = def->virtualKey;
       break;
