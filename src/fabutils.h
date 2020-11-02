@@ -906,6 +906,7 @@ enum VirtualKey {
   VK_TAB,             /**< TAB */
   VK_RETURN,          /**< RETURN */
   VK_KP_ENTER,        /**< Keypad ENTER */
+  VK_INTL_BACKSLASH,  /**< International Keyboard Backspace */
   VK_APPLICATION,     /**< APPLICATION / MENU key */
   VK_PAGEUP,          /**< PAGEUP */
   VK_KP_PAGEUP,       /**< Keypad PAGEUP */
@@ -943,12 +944,22 @@ enum VirtualKey {
   VK_UMLAUT_u,        /**< Umlaut 'u': ü */
   VK_UMLAUT_o,        /**< Umlaut 'o': ö */
   VK_UMLAUT_a,        /**< Umlaut 'a': ä */
+  VK_a_RING,          /**< Ring 'a': å */
+  VK_GRAVE_A,         /**< Grave 'A': À */
+  VK_GRAVE_E,         /**< Grave 'E': È */
+  VK_ACUTE_E,         /**< Acute 'E': É */
+  VK_GRAVE_U,         /**< Grave 'U': Ù */
+  VK_CEDILLA_C,       /**< Cedilla 'C': Ç */ 
   VK_UMLAUT_U,        /**< Umlaut 'U': Ü */
   VK_UMLAUT_O,        /**< Umlaut 'O': Ö */
   VK_UMLAUT_A,        /**< Umlaut 'A': Ä */
+  VK_A_RING,          /**< Ring 'A': Å */
   VK_MICRO,           /**< Micro: µ */
   VK_SUPER_2,         /**< Superscript '2': ² */
   VK_SUPER_3,         /**< Superscript '3': ³ */
+  VK_CURRENCY,        /**< Currency: ¤ */
+  VK_HALF,            /**< Fraction '1/2': ½ */
+  VK_DIAERESIS,       /**< Diaeresis: ¨ (umlaut) non-printable */
 
   VK_SH_PAGEUP,          /**< Shift PAGEUP */
   VK_SH_PAGEDOWN,        /**< Shift PAGEDOWN */
