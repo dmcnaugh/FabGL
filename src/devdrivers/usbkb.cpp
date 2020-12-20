@@ -21,7 +21,7 @@ static const VirtualKey usb_to_VK[128] = {
   VirtualKey::VK_6, VirtualKey::VK_7, VirtualKey::VK_8, VirtualKey::VK_9, VirtualKey::VK_0,
   VirtualKey::VK_RETURN, VirtualKey::VK_ESCAPE, VirtualKey::VK_BACKSPACE, VirtualKey::VK_TAB, VirtualKey::VK_SPACE,
   VirtualKey::VK_MINUS, VirtualKey::VK_EQUALS, VirtualKey::VK_LEFTBRACKET, VirtualKey::VK_RIGHTBRACKET, VirtualKey::VK_BACKSLASH,
-  VirtualKey::VK_NONE, VirtualKey::VK_SEMICOLON, VirtualKey::VK_QUOTE, VirtualKey::VK_GRAVEACCENT,
+  VirtualKey::VK_BACKSLASH, VirtualKey::VK_SEMICOLON, VirtualKey::VK_QUOTE, VirtualKey::VK_GRAVEACCENT,
   VirtualKey::VK_COMMA, VirtualKey::VK_PERIOD, VirtualKey::VK_SLASH, VirtualKey::VK_CAPSLOCK,
   VirtualKey::VK_F1, VirtualKey::VK_F2, VirtualKey::VK_F3, VirtualKey::VK_F4, VirtualKey::VK_F5,
   VirtualKey::VK_F6, VirtualKey::VK_F7, VirtualKey::VK_F8, VirtualKey::VK_F9, VirtualKey::VK_F10,
