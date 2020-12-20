@@ -1007,6 +1007,8 @@ protected:
   TermInfoVideoConv const * m_convMatchedItem;
   TermInfo const *          m_termInfo;
 
+  char                      m_lastChar;
+
 };
 
 

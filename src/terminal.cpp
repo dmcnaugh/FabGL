@@ -1816,16 +1816,23 @@ void Terminal::consumeInputQueue()
 
   // ESC
   // Start escape sequence
-  if (c == ASCII_ESC)
+  if (c == ASCII_ESC) {
     consumeESC();
+    m_lastChar = 0;
+  }
 
   else if (ISCTRLCHAR(c)) {
     if (!execCtrlCode(c) && m_emuState.ansiSYS) {
       setChar(c);
+      m_lastChar = c;
+    } else {
+      m_lastChar = 0;
     }
 
   } else {
-    setChar(mapChar(c));
+    m_lastChar = mapChar(c);
+    setChar(m_lastChar);
+    // setChar(mapChar(c));
   }
 
   enableBlinkingText(m_prevBlinkingTextEnabled);
@@ -2442,6 +2449,16 @@ void Terminal::consumeCSI()
     case '!':
       m_softReset = true;
       m_resetRequested = true; // reset() actually called by consumeInputQueue()
+      break;
+
+    // ESC [ Ps b : REP, Repeat previous graphic (printable) charcater (xterm feature)
+    case 'b':
+      // ESP_LOGW(__func__, "REP[%d] %c: %d",  paramsCount, m_lastChar, params[0]);
+      if (m_lastChar && paramsCount == 1 && (params[0] > 0 && params[0] <= m_columns)) {
+        for(int i = 0; i < params[0]; i++) {
+          setChar(m_lastChar);
+        }
+      }
       break;
 
     default:
