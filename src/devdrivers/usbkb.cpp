@@ -106,11 +106,11 @@ if (u_usb) {
     unsigned char a = '@' + (m_numLockLED?1:0) + (m_capsLockLED?2:0) + (m_scrollLockLED?4:0);
     // ESP_LOGW(__func__, "LEDS: %c", a);
     usbkb->write('\n');
-    vTaskDelay(1 / portTICK_PERIOD_MS);
+    vTaskDelay(20 / portTICK_PERIOD_MS);
     usbkb->write('L' + 0x80);
-    vTaskDelay(1 / portTICK_PERIOD_MS);
+    vTaskDelay(20 / portTICK_PERIOD_MS);
     usbkb->write(a);
-    vTaskDelay(1 / portTICK_PERIOD_MS);
+    vTaskDelay(20 / portTICK_PERIOD_MS);
     usbkb->write('\n');
   }
 }
