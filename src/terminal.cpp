@@ -2462,6 +2462,10 @@ void Terminal::consumeCSI()
       break;
 
     default:
+      // ESP_LOGW(__func__, "Unknown ESC [ command: %c %c [%d]",  questionMarkFound?'?':'\0', c, paramsCount);
+      // for (int i = 0; i < paramsCount; ++i)
+      //   ESP_LOGW(__func__, "%d", params[i]);
+
       #if FABGLIB_TERMINAL_DEBUG_REPORT_UNSUPPORT
       log("Unknown: ESC [ ");
       if (questionMarkFound)

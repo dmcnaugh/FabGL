@@ -256,6 +256,7 @@ VirtualKey Keyboard::processUSB(bool * keyDown)
             }
             if (!f) {
               //Generate a DOWN for this key
+                // ESP_LOGW(__func__, "USB HID KEYCODE: 0x%02X, Meta: 0x%02X", u_cmd[i+3], u_cmd[1]);
                 
                 vk = usb_to_VK[u_cmd[i+3]];
 
