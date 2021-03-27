@@ -343,6 +343,7 @@ union GlyphOptions {
     uint16_t doubleWidth      : 2;  /**< If enabled the glyph is doubled. To implement characters double width. 0 = normal, 1 = double width, 2 = double width - double height top, 3 = double width - double height bottom. */
     uint16_t userOpt1         : 1;  /**< User defined option */
     uint16_t userOpt2         : 1;  /**< User defined option */
+    uint16_t crMode           : 1;  /**< Code Representation */
   };
   uint16_t value;
 

@@ -451,6 +451,7 @@ void Terminal::reset(bool soft)
     .doubleWidth      = 0,
     .userOpt1         = 0,    // blinking
     .userOpt2         = 0,    // 0 = erasable by DECSED or DECSEL,  1 = not erasable by DECSED or DECSEL
+    .crMode           = 0,    // CRM - Control Representation Mode (Display Controls VT220)
   }};
   m_canvas->setGlyphOptions(m_glyphOptions);
 
