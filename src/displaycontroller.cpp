@@ -949,13 +949,14 @@ void IRAM_ATTR DisplayController::renderGlyphsBuffer(GlyphsBufferRenderInfo cons
   GlyphOptions glyphOptions = glyphMapItem_getOptions(mapItem);
   auto fgColor = glyphMapItem_getFGColor(mapItem);
   auto bgColor = glyphMapItem_getBGColor(mapItem);
+  int glyphIndex = glyphMapItem_getIndex(mapItem) + (glyphOptions.crMode * 256);
 
   Glyph glyph;
   glyph.X      = (int16_t) (itemX * glyphsWidth * (glyphOptions.doubleWidth ? 2 : 1));
   glyph.Y      = (int16_t) (itemY * glyphsHeight);
   glyph.width  = glyphsWidth;
   glyph.height = glyphsHeight;
-  glyph.data   = glyphsBufferRenderInfo.glyphsBuffer->glyphsData + glyphMapItem_getIndex(mapItem) * glyphsHeight * ((glyphsWidth + 7) / 8);;
+  glyph.data   = glyphsBufferRenderInfo.glyphsBuffer->glyphsData + glyphIndex * glyphsHeight * ((glyphsWidth + 7) / 8);;
 
   drawGlyph(glyph, glyphOptions, fgColor, bgColor, updateRect);
 }

@@ -1686,7 +1686,7 @@ bool Terminal::setChar(char c)
 
   int x = (m_emuState.cursorX - 1) * m_font.width * (glyphOptions.doubleWidth ? 2 : 1);
   int y = (m_emuState.cursorY - 1) * m_font.height;
-  m_canvas->drawGlyph(x, y, m_font.width, m_font.height, m_font.data, c);
+  m_canvas->drawGlyph(x, y, m_font.width, m_font.height, m_font.data, c + (glyphOptions.crMode * 256));
 
   if (glyphOptions.value != m_glyphOptions.value)
     m_canvas->setGlyphOptions(m_glyphOptions);
