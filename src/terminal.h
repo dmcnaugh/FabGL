@@ -844,7 +844,7 @@ protected:
   void erase(int X1, int Y1, int X2, int Y2, char c, bool maintainDoubleWidth, bool selective);
 
   void consumeInputQueue();
-  void consumeESC();
+  virtual void consumeESC();
   void consumeCSI();
   void consumeFabGLSeq();
   void consumeCSIQUOT(int * params, int paramsCount);
