@@ -851,7 +851,7 @@ protected:
   void consumeCSISPC(int * params, int paramsCount);
   char consumeParamsAndGetCode(int * params, int * paramsCount, bool * questionMarkFound);
   virtual void consumeDECPrivateModes(int const * params, int paramsCount, char c);
-  void consumeDCS();
+  virtual void consumeDCS();
   void execSGRParameters(int const * params, int paramsCount);
   void consumeESCVT52();
 
