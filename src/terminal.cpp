@@ -2055,8 +2055,10 @@ void Terminal::consumeESC()
         // should be as simple as to: store the code in m_emuState.characterSet[c - '(']
         case 'A': // UK (British)
         case 'B': // United States (USASCII)
+        case 'R': // French
         case 'K': // German
         case 'Y': // Italian
+        case 'H': // Sweedish
         case '0': // DEC Special Graphics
         case '1':
         case '2':
