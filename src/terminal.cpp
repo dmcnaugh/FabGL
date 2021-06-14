@@ -2058,7 +2058,7 @@ void Terminal::consumeESC()
         case 'R': // French
         case 'K': // German
         case 'Y': // Italian
-        case 'H': // Sweedish
+        case 'H': // Swedish
         case '0': // DEC Special Graphics
         case '1':
         case '2':
