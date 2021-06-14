@@ -869,6 +869,7 @@ protected:
   static void uart_isr(void *arg);
 
   char getNextCode(bool processCtrlCodes);
+  virtual char getDscs(char charSetIndex);
 
   virtual char mapChar(char c);
   virtual bool setChar(char c);

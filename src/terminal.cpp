@@ -150,7 +150,7 @@ void Terminal::begin(DisplayController * displayController, Keyboard * keyboard)
 
   // queue and task to consume input characters
   m_inputQueue = xQueueCreate(FABGLIB_TERMINAL_INPUT_QUEUE_SIZE, sizeof(uint8_t));
-  xTaskCreatePinnedToCore(&charsConsumerTask, "CCT", FABGLIB_CHARS_CONSUMER_TASK_STACK_SIZE, this, FABGLIB_CHARS_CONSUMER_TASK_PRIORITY, &m_charsConsumerTaskHandle, 1);
+  xTaskCreatePinnedToCore(&charsConsumerTask, "CCT", FABGLIB_CHARS_CONSUMER_TASK_STACK_SIZE * 2, this, FABGLIB_CHARS_CONSUMER_TASK_PRIORITY, &m_charsConsumerTaskHandle, 1);
 
   m_defaultBackgroundColor = Color::Black;
   m_defaultForegroundColor = Color::White;
@@ -308,7 +308,7 @@ void Terminal::connectLocally()
 {
   m_outputQueue = xQueueCreate(FABGLIB_TERMINAL_OUTPUT_QUEUE_SIZE, sizeof(uint8_t));
   if (!m_keyboardReaderTaskHandle && m_keyboard->isKeyboardAvailable())
-    xTaskCreatePinnedToCore(&keyboardReaderTask, "KRTL", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle, 1);
+    xTaskCreatePinnedToCore(&keyboardReaderTask, "KRTL", FABGLIB_KEYBOARD_READER_TASK_STACK_SIZE * 2, this, FABGLIB_KEYBOARD_READER_TASK_PRIORITY, &m_keyboardReaderTaskHandle, 1);
 }
 
 
@@ -2049,7 +2049,7 @@ void Terminal::consumeESC()
     case '*':
     case '+':
     {
-      char m = getNextCode(true);
+      char m = getDscs(c);
       switch (m) {
         //TODO: Here we need to respond to all possible fonts/nrcs B, A, <, 0, 1, 2, ... K (DE), Y (IT)
         // should be as simple as to: store the code in m_emuState.characterSet[c - '(']
@@ -2063,6 +2063,7 @@ void Terminal::consumeESC()
         case '1':
         case '2':
         case '<': // DEC Supplemental (Upper MCS)
+        case 'D': // DECDLD/DRCS soft font
           m_emuState.characterSet[c - '('] = m;
           break;
         default:  // Default to ASCII
@@ -2113,6 +2114,10 @@ void Terminal::consumeESC()
   }
 }
 
+char Terminal::getDscs(char charSetIndex)
+{
+  return getNextCode(true);
+}
 
 // a parameter is a number. Parameters are separated by ';'. Example: "5;27;3"
 // first parameter has index 0
