@@ -324,4 +324,241 @@ VirtualKey Keyboard::processUSB(bool * keyDown)
     return vk;
 }
 
+void Keyboard::uhc_report(Stream *out) 
+{
+  int c = 0;
+  char resp[80];
+  memset(resp, 0, 80);
+  delay(100);
+  suspendVirtualKeyGeneration(true);
+
+  uhc_send_cmd("I");
+
+  c = usbkb->readBytesUntil('\n', resp, 20);
+  resp[c] = 0;
+
+  // printf("USB HOST RESPONSE %d : [%s] \r\n", c, resp);
+
+  if (index(resp, 'U')) { 
+
+    char vstr[80] = "V";
+    const char *ver = "V1.0.0";
+    int k = 0;
+    bool v = false;
+    char *r;
+    r = resp;
+    while ((r = index(r, 'K')) != NULL) {
+      k++;
+      r++;
+    }
+
+    if (index(resp, 'V')) {
+      // query UHC for version string 'V'
+      ver = vstr;
+      v = true;
+      memset(resp, 0, 80);
+      uhc_send_cmd("V");
+      c = usbkb->readBytesUntil('\n', resp, 20);
+      resp[c] = 0;
+
+      if ((r = index(resp, 'W')) != NULL) {
+        int i = 0;
+        int j;
+        r++;
+        while (*r) {
+          i++;
+          j = (*r >> 4) & 0x07;
+          if (j) vstr[i++] = '0' + j;
+          j = *r & 0x0F;
+          vstr[i++] = '0' + j;
+          vstr[i] = '.';
+          r++;
+        }
+        vstr[i] = 0;
+      } else {
+        ver = "Unknown";
+      }
+    }
+
+    out->printf("USB Host Controller : %s\r\n", ver);
+    if (k) {
+      out->printf("%d USB keyboard%s found\r\n", k, k>1?"S":"");
+    } else {
+      out->printf("No USB keyboard found\r\n");
+    }
+
+    if (v && k) {
+      // query UHC for keyboard info string 'K'
+      memset(resp, 0, 80);
+      uhc_send_cmd("D");
+      c = usbkb->readBytesUntil('\n', resp, 70);
+      resp[c] = 0;
+
+      if ((r = index(resp, 'E')) != NULL) {
+        r++;
+        out->printf("\t%s", r);
+      }
+    }
+  }
+  suspendVirtualKeyGeneration(false);
+}
+
+/**
+ * 
+ */
+
+void ch_send(char *out) //, int len) 
+{
+  usbkb->write(0x57);
+  usbkb->write(0xAB);
+
+  unsigned char cksum = 0;
+  // int len = strlen(out);
+  int len = out[1] + 3;;
+
+  for (int i = 0; i < len; i++) {
+    cksum += *out;
+    // ESP_LOGI(__func__, "SENT %02X, %02X", *out, cksum);
+    usbkb->write(*out);
+    out++;
+  }
+  usbkb->write(cksum);
+  ESP_LOGI(__func__, "SENT WITH CKSUM %02X", cksum);
+}
+
+int ch_get(char *res)
+{
+  unsigned char c;
+  unsigned char cksum = 0;
+  int len = 0;
+  
+  // c = usbkb->read();
+  usbkb->readBytes(res, 2);
+  c = res[0];
+  if (c != 0x55) {
+    // ESP_LOGE(__func__, "DIDN'T SEE 0x55, %02X", c);
+    return -1;
+  }
+  // c = usbkb->read();
+  c = res[1];
+  if (c != 0xAA) {
+    ESP_LOGE(__func__, "DIDN'T SEE 0xAA, %02X", c);
+    return -1;
+  }
+
+  c = usbkb->read();
+  // c = *res++;
+  ESP_LOGW(__func__, "RESPONSE TO THE %02X", c);
+  cksum += c;
+  *res++ = c;
+
+  c = usbkb->read(); //SKIP unknown byte
+  cksum += c;
+  *res++ = c;
+
+  c = usbkb->read();
+  ESP_LOGW(__func__, "LENGTH OF RESPONSE %02X", c);
+  cksum += c;
+  *res++ = c;
+  len = c;
+
+  c = usbkb->read();
+  cksum += c;
+  *res++ = c;
+
+  while (usbkb->available() && len > 0) {
+    c = usbkb->read();
+    cksum += c;
+    // ESP_LOGI(__func__, "GOT %02X, %02X", c, cksum);
+    *res++ = c;
+    len--;
+  }
+
+  *res++ = 0;
+
+  c = usbkb->read();
+  // ESP_LOGW(__func__, "CHECKSUM %02X, %02X", cksum, c);
+  if (c != cksum) {
+    ESP_LOGE(__func__, "DIDN'T GET CHECKSUM %02X != %02X", cksum, c);
+    return -1;
+  }
+
+  ESP_LOGW(__func__, "GOT THE WHOLE RESPONSE");
+  return 0;
+}
+
+void testUSBBootmode(void)
+{
+    char out[65];
+    char res[65];
+    char *msg;
+
+    char bootmsg[] = "MCU ISP & WCH.CN";
+
+    msg = out;
+    *msg++ = 0xA1; //CMD
+    *msg++ = strlen(bootmsg) + 2; //0x12; //LEN
+    *msg++ = 0x00; 
+    *msg++ = 0x59; //DONT KNOW WHAT THIS DOES, PROBS IGNORED
+    *msg++ = 0x11; //DONT KNOW WHAT THIS DOES, PROBS IGNORED
+
+    for (int i = 0; i < strlen(bootmsg); i++) {
+      *msg++ = bootmsg[i];
+    }
+
+    *msg++ = 0;
+
+    // ch_send(out, strlen(bootmsg)+5);
+    ch_send(out);
+
+    // delay(100);
+
+    if (ch_get(res) != 0) {
+      ESP_LOGW(__func__, "DIDN'T SEE USB HOST in Boot Mode");
+    } else {
+      ESP_LOGI(__func__, "USB HOST IN BOOT MODE IS A CH5%02X", res[4]);
+
+      // msg = out;
+      // *msg++ = 0xA2; //CMD
+      // *msg++ = 0x01; //LEN
+      // *msg++ = 0x00; 
+      // *msg++ = 0x01; // do soft reset
+      // *msg++ = 0;
+
+      // ch_send(out);
+      // ESP_LOGI(__func__, "USB HOST SOFT RESET");
+      // ch_get(res);
+      // delay(500);
+
+      msg = out;
+      *msg++ = 0xAB; //CMD - read data flash
+      *msg++ = 0x05; // LEN
+      *msg++ = 0x00; // ignore
+      *msg++ = 0x00; // ADDR_L
+      *msg++ = 0x00; // ADDR_L
+      *msg++ = 0x00; // ignore
+      *msg++ = 0x00; // ignore
+      *msg++ = 0x10; // READ_LEN
+      *msg++ = 0;
+
+      ch_send(out);
+      ESP_LOGI(__func__, "USB HOST READ DATA FLASH");
+      if (ch_get(res) != 0 || res[0] != out[0] || res[4] != 0) {
+        ESP_LOGW(__func__, "DIDN'T GET DATA FLASH READ");
+      } else {
+        // for (int i = 6; i < res[2]+4; i++) {
+        //   ESP_LOGI(__func__, "DATA FLASH READ RESULT: %02d: %02X %c", i-6, res[i], res[i]);
+        // }
+        int maj = res[13+6] ^ 0xFF;
+        int min = res[14+6] ^ 0xFF;
+        int patch = res[15+6] ^ 0xFF;
+        res[13+6] = 0;
+
+        ESP_LOGI(__func__, "%s Version: %x.%x.%x", &res[6], maj, min, patch);
+      }
+
+      // delay(500);
+    }
+}
+
 } //namespace

@@ -37,6 +37,7 @@
 #include "comdrivers/ps2device.h"
 #include "fabui.h"
 
+#include "Stream.h"
 
 namespace fabgl {
 
@@ -401,6 +402,7 @@ public:
 #endif
 
   static int identifyUSBKBhost(void); 
+  void uhc_report(Stream *out);
 
 private:
 
