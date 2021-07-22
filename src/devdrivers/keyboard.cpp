@@ -728,7 +728,7 @@ int Keyboard::getNextScancode(int timeOutMS, bool requestResendOnTimeOut)
 
 void Keyboard::updateLEDs()
 {
-  send_cmdLEDs(m_NUMLOCK, m_CAPSLOCK, m_SCROLLLOCK);
+  if (!u_usb) send_cmdLEDs(m_NUMLOCK, m_CAPSLOCK, m_SCROLLLOCK);
   m_numLockLED    = m_NUMLOCK;
   m_capsLockLED   = m_CAPSLOCK;
   m_scrollLockLED = m_SCROLLLOCK;
