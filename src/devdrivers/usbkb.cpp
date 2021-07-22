@@ -59,18 +59,34 @@ int evt_out = 0;
 
 const VirtualKey meta[8] = { VK_LCTRL, VK_LSHIFT, VK_LALT,  VK_LGUI, VK_RCTRL, VK_RSHIFT, VK_RALT, VK_RGUI };
 
+void uhc_send_cmd(const char *msg, int delay=20)
+{
+  const char *c = msg;
+
+  if (delay) { 
+    vTaskDelay(delay / portTICK_PERIOD_MS);
+    usbkb->write('\n'); //Send end-of-command to clear any hang over command
+  }
+  
+  if (*c) {
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    usbkb->write(*c | 0x80); //Send command with MSB set
+    c++;
+  }
+  while (*c) {
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+    usbkb->write(*c); //Send remaining bytes
+    c++;
+  }
+  vTaskDelay(20 / portTICK_PERIOD_MS);
+  usbkb->write('\n'); //Send end-of-command to execute
+  vTaskDelay(20 / portTICK_PERIOD_MS);
+}
+
 int Keyboard::identifyUSBKBhost(void)
 {
-  usbkb->write('R' + 0x80);
-  vTaskDelay(10 / portTICK_PERIOD_MS);
-  usbkb->write('\n');
-  vTaskDelay(100 / portTICK_PERIOD_MS);
-  usbkb->write('\n');
-  vTaskDelay(10 / portTICK_PERIOD_MS);
-  usbkb->write('I' + 0x80);
-  vTaskDelay(10 / portTICK_PERIOD_MS);
-  usbkb->write('\n');
-  vTaskDelay(10 / portTICK_PERIOD_MS);
+  uhc_send_cmd("R", 0);
+  uhc_send_cmd("I",100);
 
   char c = 0;
   int i = -1;
@@ -82,19 +98,8 @@ int Keyboard::identifyUSBKBhost(void)
   }
 
   if (i != -1) {
-    usbkb->write('\n');
-    vTaskDelay(10 / portTICK_PERIOD_MS);
-    usbkb->write('L' + 0x80);
-    vTaskDelay(10 / portTICK_PERIOD_MS);
-    usbkb->write('G');
-    vTaskDelay(10 / portTICK_PERIOD_MS);
-    usbkb->write('\n');
-    vTaskDelay(500 / portTICK_PERIOD_MS);
-    usbkb->write('L' + 0x80);
-    vTaskDelay(10 / portTICK_PERIOD_MS);
-    usbkb->write('@');
-    vTaskDelay(10 / portTICK_PERIOD_MS);
-    usbkb->write('\n');
+    uhc_send_cmd("LG");
+    uhc_send_cmd("L@", 500);
   }
 
   return i;
@@ -103,15 +108,10 @@ int Keyboard::identifyUSBKBhost(void)
 void Keyboard::updateUSB_LEDS(void)
 {
 if (u_usb) {
-    unsigned char a = '@' + (m_numLockLED?1:0) + (m_capsLockLED?2:0) + (m_scrollLockLED?4:0);
-    // ESP_LOGW(__func__, "LEDS: %c", a);
-    usbkb->write('\n');
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    usbkb->write('L' + 0x80);
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    usbkb->write(a);
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    usbkb->write('\n');
+    char a[3] = "L@";
+    a[1] = '@' + (m_numLockLED?1:0) + (m_capsLockLED?2:0) + (m_scrollLockLED?4:0);
+    
+    uhc_send_cmd(a);
   }
 }
 
