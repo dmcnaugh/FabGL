@@ -1479,6 +1479,9 @@ void Terminal::setTerminalType(TermType value)
     case TermType::ADM31:
       setTerminalType(&term_ADM31);
       break;
+    case TermType::Cromemco3102:
+      setTerminalType(&term_Cromemco3102);
+      break;
     case TermType::Hazeltine1500:
       setTerminalType(&term_Hazeltine1500);
       break;
@@ -1589,6 +1592,32 @@ void Terminal::convSendCtrl(ConvCtrl ctrl, bool fromISR)
     case ConvCtrl::AttrReduceOff:
       convQueue("\e[22m", fromISR);
       break;
+    case ConvCtrl::AttrSet:
+      {
+        int attr = m_convMatchedChars[2] - 64;
+
+        if (attr & 1) { // Half
+          convQueue("\e[2m", fromISR);
+        } else {
+          convQueue("\e[22m", fromISR);
+        }
+        if (attr & 2) { // Blink
+          convQueue("\e[5m", fromISR);
+        } else {
+          convQueue("\e[25m", fromISR);
+        }
+        if (attr & 16) { // Reverse
+          convQueue("\e[7m", fromISR);
+        } else {
+          convQueue("\e[27m", fromISR);
+        }
+        if (attr & 32) { // Underline
+          convQueue("\e[4m", fromISR);
+        } else {
+          convQueue("\e[24m", fromISR);
+        }
+      }
+      break;
     case ConvCtrl::InsertLine:
       convQueue("\e[L", fromISR);
       break;
@@ -1606,6 +1635,13 @@ void Terminal::convSendCtrl(ConvCtrl ctrl, bool fromISR)
       break;
     case ConvCtrl::CursorOff:
       convQueue("\e[?25l", fromISR);
+      break;
+    case ConvCtrl::CursorToggle:
+      if (m_prevCursorEnabled) {
+        convQueue("\e[?25l", fromISR);
+      } else {
+        convQueue("\e[?25h", fromISR);
+      }
       break;
     case ConvCtrl::SaveCursor:
       convQueue("\e[?1048h", fromISR);

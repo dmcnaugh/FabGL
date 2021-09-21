@@ -61,6 +61,7 @@ enum class ConvCtrl {
   AttrUnderlineOff,
   AttrReduce,
   AttrReduceOff,
+  AttrSet,
   CursorPos,
   CursorPos2,
   InsertLine,
@@ -69,6 +70,7 @@ enum class ConvCtrl {
   DeleteCharacter,
   CursorOn,
   CursorOff,
+  CursorToggle,
   SaveCursor,
   RestoreCursor,
 };
@@ -105,6 +107,7 @@ enum TermType {
   WS_VT,          /**< Emualted WordStar/VT terminal */
   ADM3A,          /**< Emulated Lear Siegler ADM-3A terminal */
   ADM31,          /**< Emulated Lear Siegler ADM-31 terminal */
+  Cromemco3102,   /**< Emulated Cromemco 3102 terminal */
   Hazeltine1500,  /**< Emulated Hazeltine 1500 terminal */
   Osborne,        /**< Emulated Osborne I */
   Kaypro,         /**< Emulated Kaypro */
@@ -122,6 +125,9 @@ extern const TermInfo term_ADM3A;
 
 // Lear Siegler ADM-31
 extern const TermInfo term_ADM31;
+
+// Cromemco 3102
+extern const TermInfo term_Cromemco3102;
 
 // Hazeltine 1500
 extern const TermInfo term_Hazeltine1500;

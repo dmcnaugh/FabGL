@@ -274,6 +274,168 @@ const TermInfo term_ADM31 = {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Cromemco 3102
+
+const TermInfoKbdConv kbdConv_Cromemco3102[] = {
+  // Cursor Up => ESC A
+  { VK_UP, "\x0B" },
+
+  // Cursor Down => ESC B
+  { VK_DOWN, "\x0A" },
+
+  // Cursor Left => ESC D
+  { VK_LEFT, "\x08" },
+
+  // Cursor Right => ESC C
+  { VK_RIGHT, "\x0C" },
+
+  // Home => ESC H
+  { VK_HOME, "\eH" },
+
+  // // End => CTRL-Q D, WordStar Right Side
+  // { VK_END, "\x11" "D" },
+
+  // // PageUp => CTRL-R, WordStar Scroll Up Screen
+  // { VK_PAGEUP, "\x12" },
+
+  // // PageDown => CTRL-C, WordStar Scroll Down Screen
+  // { VK_PAGEDOWN, "\x03" },
+
+  // Backspace => CTRL-H
+  { VK_BACKSPACE, "\x08" },
+
+  // F1 => STX ESC p ETX
+  { VK_F1, "\x02\ep\x03" },
+
+  // F2 => STX ESC q ETX
+  { VK_F2, "\x02\eq\x03" },
+
+  // F3 => STX ESC r ETX
+  { VK_F3, "\x02\er\x03" },
+
+  // F4 => STX ESC w ETX
+  { VK_F4, "\x02\es\x03" },
+
+  // F5 => STX ESC t ETX
+  { VK_F5, "\x02\et\x03" },
+
+  // F6 => STX ESC u ETX
+  { VK_F6, "\x02\eu\x03" },
+
+  // F7 => STX ESC v ETX
+  { VK_F7, "\x02\ev\x03" },
+
+  // F9 => STX ESC w ETX
+  { VK_F8, "\x02\ew\x03" },
+
+  // F9 => STX ESC x ETX
+  { VK_F9, "\x02\ex\x03" },
+
+  // F10 => STX ESC y ETX
+  { VK_F10, "\x02\ey\x03" },
+
+  // Delete => ESC P
+  { VK_DELETE, "\eP" },
+
+  // // Insert => CTRL-V, WordStar Insert
+  // { VK_INSERT, "\x16" },
+
+  // // SHIFT PageUp => CTRL-Q R, WordStar Begin Doc
+  // { VK_SH_PAGEUP, "\x11" "R" },
+
+  // // SHIFT PageDown => CTRL-Q C, WordStar End Doc
+  // { VK_SH_PAGEDOWN, "\x11" "C" },
+
+  // // SHIFT Cursor Up => CTRL-W, WordStar Scroll Line Up
+  // { VK_SH_UP, "\x17" },
+
+  // // SHIFT Cursor Down => CTRL-Z, WordStar Scroll Line Down
+  // { VK_SH_DOWN, "\x1A" },
+
+  // // SHIFT Cursor Left => CTRL-A, WordStar Word Left
+  // { VK_SH_LEFT, "\x01" },
+
+  // // SHIFT Cursor RIght => CTRL-F, WordStar Word Left
+  // { VK_SH_RIGHT, "\x06" },
+
+  // Last item marker
+  { VK_NONE, nullptr },
+};
+
+// sorted by TermSeq name
+const TermInfoVideoConv videoConv_Cromemco3102[] = {
+  // 'ESC B' => Cursor Down
+  { "\eB", 2, { ConvCtrl::LineFeed, ConvCtrl::END} },
+
+  // 'ESC A' => Cursor Up
+  { "\eA", 2, { ConvCtrl::CursorUp, ConvCtrl::END} },
+
+  // 'ESC C' => Cursor Right
+  { "\eC", 2, { ConvCtrl::CursorRight, ConvCtrl::END} },
+
+  // 'ESC D' => Cursor Left
+  { "\eD", 2, { ConvCtrl::CursorLeft, ConvCtrl::END} },
+
+  // 'ESC J' => Erase to end of screen
+  { "\eJ", 2, { ConvCtrl::EraseToEndOfScreen, ConvCtrl::END} },
+
+  // 'ESC K' => Erase to end of line
+  { "\eK", 2, { ConvCtrl::EraseToEndOfLine, ConvCtrl::END} },
+
+  // 'ESC F x y' => Cursor Position (cursorX = x-31, cursorY = y-31)
+  { "\eF\xff\xff", 4, { ConvCtrl::CursorPos, ConvCtrl::END} },
+
+  // 'ESC H' => Cursor Home
+  { "\eH", 2, { ConvCtrl::CursorHome, ConvCtrl::END} },
+
+  // 'ESC Z' => Cursor Off/On (Toggle)
+  //TODO:  Need to create a toggle mechanism
+  { "\eZ", 2, { ConvCtrl::CursorToggle, ConvCtrl::END} },
+
+  // // '~ DC3' => Delete Line
+  // { "~\x13", 2, { ConvCtrl::DeleteLine, ConvCtrl::END} },
+
+  // // '~ CAN' => Clear to end of Screen
+  // { "~\x18", 2, { ConvCtrl::EraseToEndOfScreen, ConvCtrl::END} },
+
+  // // '~ ETB' => Clear to end of Screen
+  // { "~\x17", 2, { ConvCtrl::EraseToEndOfScreen, ConvCtrl::END} },
+
+  // 'ESC E' => Cursor home and Clear screen
+  { "\eE", 2, { ConvCtrl::CursorHome, ConvCtrl::EraseToEndOfScreen, ConvCtrl::END} },
+
+  // 'ESC d attr' => Attribute Set
+  { "\ed\xff", 3, { ConvCtrl::AttrSet, ConvCtrl::END} },
+
+  // 'ESC l' => Start Blink
+  { "\el", 2, { ConvCtrl::AttrBlink, ConvCtrl::END} },
+
+  // 'ESC m' => Normal Video
+  { "\em", 2, { ConvCtrl::AttrNormal, ConvCtrl::END} },
+
+  // // '~ SUB' => Insert Line
+  // { "~\x1a", 2, { ConvCtrl::InsertLine, ConvCtrl::END} },
+
+  // // '~ EM' => Char Attribute: Half intensity ON
+  // { "~\x19", 2, { ConvCtrl::AttrReduce, ConvCtrl::END} },
+
+  // // '~ US' => Char Attribute: Half intensity oFF
+  // { "~\x1f", 2, { ConvCtrl::AttrReduceOff, ConvCtrl::END} },
+
+  // Last item marker
+  { nullptr, 0, { } },
+};
+
+
+const TermInfo term_Cromemco3102 = {
+  "\e[?45h",
+  videoConv_Cromemco3102,
+  kbdConv_Cromemco3102
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Hazeltine 1500
 
 
