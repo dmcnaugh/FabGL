@@ -290,43 +290,48 @@ const TermInfoKbdConv kbdConv_Cromemco3102[] = {
   { VK_RIGHT, "\x0C" },
 
   // Home => ESC H
-  { VK_HOME, "\eH" },
-
-  // // End => CTRL-Q D, WordStar Right Side
-  // { VK_END, "\x11" "D" },
-
-  // // PageUp => CTRL-R, WordStar Scroll Up Screen
-  // { VK_PAGEUP, "\x12" },
-
-  // // PageDown => CTRL-C, WordStar Scroll Down Screen
-  // { VK_PAGEDOWN, "\x03" },
+  { VK_HOME, "\x19" },
 
   // Backspace => CTRL-H
   { VK_BACKSPACE, "\x08" },
+  
+  // F1 => STX p
+  { VK_F1, "\x02p" },
 
-  // F1 => STX ESC p ETX
-  { VK_F1, "\x02\ep\x03" },
+  // F2 => STX q
+  { VK_F2, "\x02q" },
 
-  // F2 => STX ESC q ETX
-  { VK_F2, "\x02\eq\x03" },
+  // F3 => STX r
+  { VK_F3, "\x02r" },
 
-  // F3 => STX ESC r ETX
-  { VK_F3, "\x02\er\x03" },
+  // F4 => STX w
+  { VK_F4, "\x02s" },
 
-  // F4 => STX ESC w ETX
-  { VK_F4, "\x02\es\x03" },
+  // F5 => STX t
+  { VK_F5, "\x02t" },
 
-  // F5 => STX ESC t ETX
-  { VK_F5, "\x02\et\x03" },
+  // F6 => STX u
+  { VK_F6, "\x02u" },
 
-  // F6 => STX ESC u ETX
-  { VK_F6, "\x02\eu\x03" },
+  // F7 => STX v
+  { VK_F7, "\x02v" },
 
-  // F7 => STX ESC v ETX
-  { VK_F7, "\x02\ev\x03" },
+  // F9 => STX w
+  { VK_F8, "\x02w" },
 
-  // F9 => STX ESC w ETX
-  { VK_F8, "\x02\ew\x03" },
+  // F9 => STX x
+  { VK_F9, "\x02x" },
+
+  // F10 => STX y
+  { VK_F10, "\x02y" },
+  
+  // Delete => DEL
+  { VK_DELETE, "\x7F" },
+
+  // Last item marker
+  { VK_NONE, nullptr },
+};
+
 
   // F9 => STX ESC x ETX
   { VK_F9, "\x02\ex\x03" },
@@ -375,6 +380,12 @@ const TermInfoVideoConv videoConv_Cromemco3102[] = {
 
   // 'ESC D' => Cursor Left
   { "\eD", 2, { ConvCtrl::CursorLeft, ConvCtrl::END} },
+
+  // 'ESC L' => Insert line
+  { "\eL", 2, { ConvCtrl::InsertLine, ConvCtrl::END} },
+
+  // 'ESC M' => Delete line
+  { "\eM", 2, { ConvCtrl::DeleteLine, ConvCtrl::END} },
 
   // 'ESC J' => Erase to end of screen
   { "\eJ", 2, { ConvCtrl::EraseToEndOfScreen, ConvCtrl::END} },
