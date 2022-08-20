@@ -97,7 +97,8 @@ const TermInfoVideoConv videoConv_WordStar[] = {
 const TermInfo term_VT_WordStar = {
   "",
   videoConv_WordStar,
-  kbdConv_Generic
+  kbdConv_Generic, 
+  NULL
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +190,8 @@ const TermInfoVideoConv videoConv_ADM3A[] = {
 const TermInfo term_ADM3A = {
   "",
   videoConv_ADM3A,
-  kbdConv_Generic
+  kbdConv_Generic,
+  NULL
 };
 
 
@@ -268,7 +270,8 @@ const TermInfoVideoConv videoConv_ADM31[] = {
 const TermInfo term_ADM31 = {
   "",
   videoConv_ADM31,
-  kbdConv_Generic
+  kbdConv_Generic,
+  NULL
 };
 
 
@@ -332,36 +335,37 @@ const TermInfoKbdConv kbdConv_Cromemco3102[] = {
   { VK_NONE, nullptr },
 };
 
+const TermInfoKbdConv kbdShift_Cromemco3102[] = {
 
-  // F9 => STX ESC x ETX
-  { VK_F9, "\x02\ex\x03" },
+  // F11 => STX z
+  { VK_F1, "\x02z" },
 
-  // F10 => STX ESC y ETX
-  { VK_F10, "\x02\ey\x03" },
+  // F12 => STX {
+  { VK_F2, "\x02{" },
 
-  // Delete => ESC P
-  { VK_DELETE, "\eP" },
+  // F13 => STX |
+  { VK_F3, "\x02|" },
 
-  // // Insert => CTRL-V, WordStar Insert
-  // { VK_INSERT, "\x16" },
+  // F14 => STX }
+  { VK_F4, "\x02}" },
 
-  // // SHIFT PageUp => CTRL-Q R, WordStar Begin Doc
-  // { VK_SH_PAGEUP, "\x11" "R" },
+  // F15 => STX ~
+  { VK_F5, "\x02~" },
 
-  // // SHIFT PageDown => CTRL-Q C, WordStar End Doc
-  // { VK_SH_PAGEDOWN, "\x11" "C" },
+  // F16 => STX DEL
+  { VK_F6, "\x02\x7F" },
 
-  // // SHIFT Cursor Up => CTRL-W, WordStar Scroll Line Up
-  // { VK_SH_UP, "\x17" },
+  // F17 => STX o
+  { VK_F7, "\x02o" },
 
-  // // SHIFT Cursor Down => CTRL-Z, WordStar Scroll Line Down
-  // { VK_SH_DOWN, "\x1A" },
+  // F18 => STX n
+  { VK_F8, "\x02n" },
 
-  // // SHIFT Cursor Left => CTRL-A, WordStar Word Left
-  // { VK_SH_LEFT, "\x01" },
+  // F19 => STX m
+  { VK_F9, "\x02m" },
 
-  // // SHIFT Cursor RIght => CTRL-F, WordStar Word Left
-  // { VK_SH_RIGHT, "\x06" },
+  // F20 => STX l
+  { VK_F10, "\x02l" },
 
   // Last item marker
   { VK_NONE, nullptr },
@@ -447,7 +451,8 @@ const TermInfoVideoConv videoConv_Cromemco3102[] = {
 const TermInfo term_Cromemco3102 = {
   "\e[?45h",
   videoConv_Cromemco3102,
-  kbdConv_Cromemco3102
+  kbdConv_Cromemco3102,
+  kbdShift_Cromemco3102
 };
 
 
@@ -505,7 +510,8 @@ const TermInfoVideoConv videoConv_Hazeltine1500[] = {
 const TermInfo term_Hazeltine1500 = {
   "",
   videoConv_Hazeltine1500,
-  kbdConv_Generic
+  kbdConv_Generic,
+  NULL
 };
 
 
@@ -568,7 +574,8 @@ const TermInfoVideoConv videoConv_Osborne[] = {
 const TermInfo term_Osborne = {
   "",
   videoConv_Osborne,
-  kbdConv_Generic
+  kbdConv_Generic,
+  NULL
 };
 
 
@@ -654,7 +661,8 @@ const TermInfoVideoConv videoConv_Kaypro[] = {
 const TermInfo term_Kaypro = {
   "",
   videoConv_Kaypro,
-  kbdConv_Generic
+  kbdConv_Generic,
+  NULL
 };
 
 
@@ -674,7 +682,8 @@ const TermInfoVideoConv videoConv_VT52[] = {
 const TermInfo term_VT52 = {
   "\e[?2l",         // <= set VT52 mode
   videoConv_VT52,
-  kbdConv_Generic
+  kbdConv_Generic,
+  NULL
 };
 
 

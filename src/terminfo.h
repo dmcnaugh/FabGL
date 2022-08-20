@@ -97,6 +97,7 @@ struct TermInfo {
   char const *              initString;
   TermInfoVideoConv const * videoCtrlSet;
   TermInfoKbdConv const *   kbdCtrlSet;
+  TermInfoKbdConv const *   kbdShiftSet;
 };
 
 
