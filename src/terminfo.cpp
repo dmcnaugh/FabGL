@@ -412,6 +412,12 @@ const TermInfoVideoConv videoConv_Cromemco3102[] = {
 
   // 'ESC m' => Normal Video
   { "\em", 2, { ConvCtrl::AttrNormal, ConvCtrl::END} },
+ 
+  // 'ESC R' => Enter Graphics Mode
+  { "\eR", 2, { ConvCtrl::StartGraphics, ConvCtrl::END} },
+
+  // 'ESC S' => Exit Graphics Mode
+  { "\eS", 2, { ConvCtrl::EndGraphics, ConvCtrl::END} },
 
   // // '~ SUB' => Insert Line
   // { "~\x1a", 2, { ConvCtrl::InsertLine, ConvCtrl::END} },

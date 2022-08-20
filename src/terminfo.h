@@ -62,6 +62,8 @@ enum class ConvCtrl {
   AttrReduce,
   AttrReduceOff,
   AttrSet,
+  StartGraphics,
+  EndGraphics,
   CursorPos,
   CursorPos2,
   InsertLine,

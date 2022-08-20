@@ -1497,6 +1497,12 @@ void Terminal::setTerminalType(TermType value)
   }
 }
 
+static bool c3012_graphics = false;
+static char dec_sp_gr[] = { 
+  0x6c, 0x6b, 0x6d, 0x6a, 
+  0x77, 0x75, 0x74, 0x76, 
+  0x71, 0x78, 0x6e 
+};
 
 void Terminal::convHandleTranslation(uint8_t c, bool fromISR)
 {
@@ -1530,6 +1536,17 @@ void Terminal::convHandleTranslation(uint8_t c, bool fromISR)
 
     // no match, send received stuff as is
     convQueue(nullptr, fromISR);
+
+  } else if (c3012_graphics) {
+
+    if (c >= 0x40 && c <= 0x6b) { // '@' .. 'k'
+      int mode = c % 4;
+      c = (c & 0x3f) >> 2;
+      c = dec_sp_gr[c];
+    } 
+
+    addToInputQueue(c, fromISR);
+
   } else
     addToInputQueue(c, fromISR);
 }
@@ -1617,6 +1634,14 @@ void Terminal::convSendCtrl(ConvCtrl ctrl, bool fromISR)
           convQueue("\e[24m", fromISR);
         }
       }
+      break;
+    case ConvCtrl::StartGraphics:
+      convQueue("\e(0", fromISR);
+      c3012_graphics = true;
+      break;
+    case ConvCtrl::EndGraphics:
+      convQueue("\e(B", fromISR);
+      c3012_graphics = false;
       break;
     case ConvCtrl::InsertLine:
       convQueue("\e[L", fromISR);
