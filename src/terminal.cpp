@@ -54,8 +54,10 @@ namespace fabgl {
 // 64 = VT420
 // 1 = support for 132 columns
 // 6 = selective erase
+// 7 = DRCS
+// 9 = NRCS
 // 22 = color
-const char TERMID[] = "?64;1;6;22c";
+const char TERMID[] = "?64;1;6;7;9;22c";
 
 // to send 8 bit (S8C1T) or 7 bit control characters
 const char CSI_7BIT[] = "\e[";
@@ -1540,7 +1542,7 @@ void Terminal::convHandleTranslation(uint8_t c, bool fromISR)
   } else if (c3012_graphics) {
 
     if (c >= 0x40 && c <= 0x6b) { // '@' .. 'k'
-      int mode = c % 4;
+      // int mode = c % 4;
       c = (c & 0x3f) >> 2;
       c = dec_sp_gr[c];
     } 

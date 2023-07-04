@@ -29,6 +29,8 @@
 
 
 // Embedded fonts
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 // fixed width
 #include "fonts/font_4x6.h"
@@ -59,7 +61,7 @@
 #include "fonts/font_std_22.h"
 #include "fonts/font_std_24.h"
 
-
+#pragma GCC diagnostic push
 namespace fabgl {
 
 

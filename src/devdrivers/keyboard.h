@@ -134,7 +134,7 @@ extern const KeyboardLayout ItalianLayout;
 /** @brief French keyboard layout */
 extern const KeyboardLayout FrenchLayout;
 
-/** @brief Italian keyboard layout */
+/** @brief Swedish keyboard layout */
 extern const KeyboardLayout SwedishLayout;
 
 /** @brief Test keyboard layout */
@@ -364,7 +364,21 @@ public:
    *
    * @return True if command has been successfully delivered to the keyboard.
    */
-  bool setLEDs(bool numLock, bool capsLock, bool scrollLock) { return send_cmdLEDs(numLock, capsLock, scrollLock); }
+  bool setLEDs(bool numLock, bool capsLock, bool scrollLock) { 
+
+    bool result = false;
+
+    if (!u_usb) result = send_cmdLEDs(numLock, capsLock, scrollLock);
+    else result = send_usbLEDs(numLock, capsLock, scrollLock);
+
+    if (result) {
+      m_numLockLED = numLock;
+      m_capsLockLED = capsLock;
+      m_scrollLockLED = scrollLock;
+    }
+
+    return result;
+  }
 
   bool setLocks(bool numLock, bool capsLock, bool scrollLock) {
     bool res = setLEDs(numLock, capsLock, scrollLock);
@@ -446,7 +460,7 @@ private:
 
   VirtualKey remapUSBtoVK(VirtualKey in_vk, KeyboardLayout const * layout = nullptr);
   VirtualKey processUSB(bool * keyDown);
-  void updateUSB_LEDS(void);
+  bool send_usbLEDs(bool numLock, bool capsLock, bool scrollLock);
 
 };
 

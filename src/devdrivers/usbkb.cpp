@@ -105,13 +105,16 @@ int Keyboard::identifyUSBKBhost(void)
   return i;
 }
 
-void Keyboard::updateUSB_LEDS(void)
+bool Keyboard::send_usbLEDs(bool numLock, bool capsLock, bool scrollLock)
 {
 if (u_usb) {
     char a[3] = "L@";
-    a[1] = '@' + (m_numLockLED?1:0) + (m_capsLockLED?2:0) + (m_scrollLockLED?4:0);
+    a[1] = '@' + (numLock?1:0) + (capsLock?2:0) + (scrollLock?4:0);
     
     uhc_send_cmd(a);
+    return true;
+  } else {
+    return false;
   }
 }
 
