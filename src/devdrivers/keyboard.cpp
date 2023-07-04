@@ -502,7 +502,7 @@ const KeyboardLayout SwedishLayout {
 /**************************************************************************************/
 const KeyboardLayout GermanLayout {
   // name
-  "Deutsche",
+  "Deutsch",
 
   // inherited layout
   &USLayout,
