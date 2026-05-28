@@ -97,12 +97,13 @@ int Keyboard::identifyUSBKBhost(void)
     if (c == 'K') i++;
   }
 
-  if (i != -1) {
-    uhc_send_cmd("LG");
-    uhc_send_cmd("L@", 500);
-  }
-
   return i;
+}
+
+void Keyboard::finalizeUSBKBhost(void)
+{
+  uhc_send_cmd("LG");
+  uhc_send_cmd("L@", 500);
 }
 
 bool Keyboard::send_usbLEDs(bool numLock, bool capsLock, bool scrollLock)

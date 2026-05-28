@@ -416,6 +416,7 @@ public:
 #endif
 
   static int identifyUSBKBhost(void); 
+  static void finalizeUSBKBhost(void);
   void uhc_report(Stream *out);
 
 private:
