@@ -171,6 +171,13 @@ void GPIOStream::play(int freq, lldesc_t volatile * dmaBuffers)
     I2S1.lc_conf.val    = I2S_OUT_DATA_BURST_EN | I2S_OUTDSCR_BURST_EN;
     I2S1.out_link.addr  = (uint32_t) (dmaBuffers ? &dmaBuffers[0] : m_DMABuffer);
     I2S1.out_link.start = 1;
+
+    // Let APLL lock and DMA prime the I2S FIFO before clocking out pixels.
+    // Without this, alternate raster lines on DoubleScan modes can land at
+    // different HSync phases (visible as "comb"). 5 ms is sufficient; longer
+    // gives no further benefit, confirming APLL lock as the mechanism.
+    vTaskDelay(5 / portTICK_PERIOD_MS);
+
     I2S1.conf.tx_start  = 1;
 
     m_DMAStarted = true;
