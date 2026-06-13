@@ -2,6 +2,7 @@
 #include "keyboard.h"
 
 #include <sys/time.h>
+#include "esp_timer.h"
 #include "arduino.h"
 
 
@@ -85,19 +86,38 @@ void uhc_send_cmd(const char *msg, int delay=20)
 
 int Keyboard::identifyUSBKBhost(void)
 {
-  uhc_send_cmd("R", 0);
-  uhc_send_cmd("I",100);
+  // uhc_send_cmd("R", 0);  // TRIAL: the reset is dropped during the CH559's
+  // power-on enumeration anyway, and if received it discards/restarts
+  // enumeration (counterproductive). The CH559 enumerates on its own at
+  // power-up; just poll "I" below.
 
-  char c = 0;
-  int i = -1;
+  // The external CH559 USB host controller has a single-byte UART and is
+  // unresponsive while it blocks enumerating the attached keyboard, so an
+  // early "I" probe is dropped unread. Poll until it answers, bounded by the
+  // ~500 ms the PSRAM memtest used to provide ahead of this probe (V1.8.1
+  // regression): worst case matches the old memtest-on timing, success is
+  // faster, and a slow-enumerating keyboard is no longer missed.
+  const int64_t deadline = esp_timer_get_time() + 500000;
+  int best = -1;
 
-  while (usbkb->available() && c != '\n') {
-    c = usbkb->read();
-    if (c == 'U') i = 0;
-    if (c == 'K') i++;
-  }
+  do {
+    // 25 ms leading settle (not 100): it only needs to exceed one CH559
+    // main-loop period to clear a half-sent command before this probe; the
+    // 20 ms inter-byte gap in uhc_send_cmd still covers the keyboard bInterval.
+    // Smaller settle fits more probe attempts inside the retry budget.
+    uhc_send_cmd("I", 25);
 
-  return i;
+    char c = 0;
+    int i = -1;
+    while (usbkb->available() && c != '\n') {
+      c = usbkb->read();
+      if (c == 'U') i = 0;
+      if (c == 'K') i++;
+    }
+    if (i > best) best = i;
+  } while (best < 1 && esp_timer_get_time() < deadline);
+
+  return best;
 }
 
 void Keyboard::finalizeUSBKBhost(void)
